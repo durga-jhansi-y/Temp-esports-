@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './SectionTitle.module.css';
 
-export interface SectionTitleProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SectionTitleProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   title: React.ReactNode;
   subtitle?: React.ReactNode;
 }
