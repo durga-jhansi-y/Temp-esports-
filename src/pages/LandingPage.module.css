@@ -1,0 +1,250 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 2rem;
+  min-height: calc(100vh - 70px);
+  position: relative;
+  overflow: hidden;
+  
+  background-color: #0a0a0b; 
+  /* UPDATED: Layered purple ambient radial glows on top of the dark image wallpaper */
+  background-image: 
+    radial-gradient(circle at 15% 25%, rgba(122, 92, 255, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 65%, rgba(168, 144, 255, 0.12) 0%, transparent 45%),
+    linear-gradient(to bottom, rgba(10, 10, 11, 0.93), rgba(10, 10, 11, 0.98)),
+    url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  
+  color: #ffffff;
+}
+
+.hero {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  z-index: 1;
+}
+
+.heroContent {
+  flex: 1 1 500px;
+  text-align: left;
+}
+
+/* UPDATED: Styled as a subtle purple glassmorphic pill badge */
+.subtitle {
+  display: inline-block;
+  color: #a890ff;
+  background: rgba(122, 92, 255, 0.12);
+  border: 1px solid rgba(122, 92, 255, 0.3);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  letter-spacing: 1.5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.heroContent h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.highlight {
+  background: linear-gradient(90deg, #7a5cff 0%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.3;
+  padding: 0.1em 0;
+}
+
+.heroContent p.description {
+  font-size: 1.25rem;
+  color: #a0aec0;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+/* Input Form Area */
+.inputGroup {
+  display: flex;
+  align-items: center;
+  background-color: rgba(22, 22, 26, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 0.5rem;
+  border-radius: 10px;
+  /* UPDATED: Purple tinted border and soft purple ambient glow */
+  border: 1px solid rgba(122, 92, 255, 0.25);
+  box-shadow: 0 0 20px rgba(122, 92, 255, 0.08);
+  gap: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Glow brighter when the user clicks/types inside the input */
+.inputGroup:focus-within {
+  border-color: rgba(122, 92, 255, 0.6);
+  box-shadow: 0 0 25px rgba(122, 92, 255, 0.25);
+}
+
+.inputPrefix {
+  color: #94a3b8;
+  padding-left: 0.75rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.inputField {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  flex: 1;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+/* CTA Button styling */
+.ctaButton {
+  white-space: nowrap;
+  background: linear-gradient(135deg, #7a5cff 0%, #6344f5 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px rgba(122, 92, 255, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(122, 92, 255, 0.5);
+}
+
+/* Mock Dashboard */
+.mockDashboard {
+  position: relative;
+  flex: 1 1 450px;
+  background-color: rgba(17, 17, 21, 0.85); 
+  backdrop-filter: blur(16px); 
+  border-radius: 14px;
+  /* UPDATED: Subtle purple border & glowing box shadow */
+  border: 1px solid rgba(122, 92, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(122, 92, 255, 0.08);
+  padding: 2.25rem 2rem 2rem 2rem;
+  text-align: left;
+  overflow: hidden;
+  transition: transform 0.25 ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* UPDATED: Top purple accent border bar */
+.mockDashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #7a5cff 0%, #a890ff 100%);
+}
+
+.mockDashboard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(122, 92, 255, 0.4);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 35px rgba(122, 92, 255, 0.2); 
+}
+
+.mockUrl {
+  font-size: 0.8rem;
+  color: #a890ff; /* Light purple tint for the URL mock */
+  margin-bottom: 1.5rem;
+  font-family: monospace;
+}
+
+.mockStats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.mockStatValue {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.mockStatLabel {
+  font-size: 0.8rem;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Matches Area */
+.matchSection {
+  border-top: 1px solid rgba(122, 92, 255, 0.15);
+  padding-top: 1.5rem;
+}
+
+.matchHeader {
+  color: #a890ff;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.matchRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+}
+
+.matchRowBorder {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.team {
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.vs {
+  color: #a890ff;
+  background: rgba(122, 92, 255, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .heroContent h1 {
+    font-size: 2.5rem;
+  }
+  
+  .inputGroup {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+  
+  .inputPrefix {
+    padding-left: 0;
+    text-align: center;
+  }
+  
+  .inputField {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+}
