@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle2, Calendar, Users, Trophy, DollarSign, BarChart } from "lucide-react";
 
@@ -323,10 +322,10 @@ export const TutorialRunCollegeTournament = () => {
                 Elara Arena provides everything you need: automated brackets, sponsor integration, NIL compliance, and live match tracking. Used by 200+ college esports programs.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" onClick={() => navigate('/get-started')} className={styles.ctaButtonPrimary}>
+                <Button size="large" onClick={() => navigate('/get-started')} className={styles.ctaButtonPrimary}>
                   Start Your Tournament Free
                 </Button>
-                <Button size="lg" onClick={() => navigate('/compare/playvs')} className={styles.ctaButtonOutline}>
+                <Button size="large" onClick={() => navigate('/compare/playvs')} className={styles.ctaButtonOutline}>
                   Compare vs PlayVS
                 </Button>
               </div>

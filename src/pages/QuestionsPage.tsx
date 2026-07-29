@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './QuestionsPage.module.css';
 import { Button } from '../components/ui/Button'; // Adjust this path
 import { Card } from '../components/ui/Card'; // Adjust this path

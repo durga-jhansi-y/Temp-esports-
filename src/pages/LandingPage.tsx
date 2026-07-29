@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './LandingPage.module.css';
 import { Button } from '../components/ui/Button'; // Adjust this path based on your folder structure
 
