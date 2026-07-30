@@ -17,6 +17,7 @@
 .hero h1 {
   font-size: 3rem;
   margin-bottom: 1.5rem;
+  line-height: 1.2;
   background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
