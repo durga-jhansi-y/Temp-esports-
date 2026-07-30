@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styles from './TrustPage.module.css';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
