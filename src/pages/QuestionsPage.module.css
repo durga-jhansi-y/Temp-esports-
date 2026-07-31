@@ -1,0 +1,144 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem; /* Matched gap to PricingPage */
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #ffffff;
+}
+
+/* --- "The Other Door" Card Section --- */
+.otherDoorCard {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(26, 32, 44, 0.8); /* Replaced solid dark gray with Pricing planCard background */
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+  color: #ff0844; /* Matched Pricing recommended accent */
+  letter-spacing: 0.05em; /* Matched Pricing recommended badge */
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  display: block;
+  /* Applied Pricing hero h1 gradient */
+  background: linear-gradient(90deg, #ff0844 0%, #ffb199 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.3;
+  padding: 0.1em 0;
+}
+
+.description {
+  color: #a0aec0; /* Replaced #a1a1aa with Pricing paragraph text */
+  margin-bottom: 2rem;
+  display: block;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.featuresList {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.featureItem {
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #e2e8f0; /* Matched Pricing list item text */
+}
+
+/* --- FAQ Section --- */
+.faqSection {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.faqSection h2 {
+  font-size: 2.5rem; /* Scaled up to match Pricing h2s */
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.faqContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Added slightly more breathing room */
+}
+
+.faqItem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Matched Pricing table border */
+  padding-bottom: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.faqItem:hover {
+  border-color: #ff0844; /* Changed purple hover to Pricing red */
+}
+
+.faqHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600; /* Matched Pricing font weights */
+  font-size: 1.125rem;
+  color: #e2e8f0;
+  transition: color 0.2s ease;
+}
+
+.faqHeader:hover {
+  color: #ffb199; /* Replaced purple hover with Pricing peach */
+}
+
+.faqIcon {
+  font-size: 0.85rem;
+  color: #ff0844; /* Changed purple icon to Pricing red */
+  transition: transform 0.2s ease;
+}
+
+.faqAnswer {
+  color: #a0aec0; /* Replaced #a1a1aa with Pricing paragraph text */
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+  
+  .faqSection h2 {
+    font-size: 2rem;
+  }
+  
+  .featuresList {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}
