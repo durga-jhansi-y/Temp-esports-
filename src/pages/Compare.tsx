@@ -2,11 +2,7 @@ import { SEOHead } from "../components/seo/SEOHead";
 import { Card } from "../components/ui/Card";
 import { Check, X } from "lucide-react";
 import { Button } from "../components/ui/Button";
-import { useNavigate } from "react-router-dom";
-
-interface ComparisonPageProps {
-  competitor: "challonge" | "battlefy" | "toornament" | "playvs";
-}
+import { useNavigate, useParams, Navigate } from "react-router-dom";
 
 const competitorData = {
   challonge: {
@@ -83,12 +79,21 @@ const competitorData = {
   },
 };
 
-export const Compare = ({ competitor }: ComparisonPageProps) => {
+type CompetitorKey = keyof typeof competitorData;
+
+export const Compare = () => {
   const navigate = useNavigate();
-  const data = competitorData[competitor];
+  const { competitor } = useParams<{ competitor: string }>();
+
+  if (!competitor || !(competitor in competitorData)) {
+    return <Navigate to="/" replace />;
+  }
+
+  const validCompetitor = competitor as CompetitorKey;
+  const data = competitorData[validCompetitor];
 
   const seoTitle = `Elara Arena vs ${data.name} - Best ${
-    competitor === "playvs" ? "College" : "White Label"
+    validCompetitor === "playvs" ? "College" : "White Label"
   } Esports Tournament Platform 2026`;
 
   const seoDescription = `Compare Elara Arena vs ${data.name}. Elara offers white label customization, sponsor integration, and NIL marketplace that ${data.name} doesn't. See the full comparison.`;
@@ -98,8 +103,8 @@ export const Compare = ({ competitor }: ComparisonPageProps) => {
       <SEOHead
         title={seoTitle}
         description={seoDescription}
-        keywords={`elara vs ${competitor}, ${data.name} alternative, best tournament software, white label esports platform, college esports software`}
-        canonical={`https://hub.esportsleaguehub.com/compare/${competitor}`}
+        keywords={`elara vs ${validCompetitor}, ${data.name} alternative, best tournament software, white label esports platform, college esports software`}
+        canonical={`https://hub.esportsleaguehub.com/compare/${validCompetitor}`}
       />
 
       <div className="max-w-6xl mx-auto space-y-8 py-8">
@@ -107,7 +112,7 @@ export const Compare = ({ competitor }: ComparisonPageProps) => {
           <h1 className="text-4xl font-bold">Elara Arena vs {data.name}</h1>
           <p className="text-xl text-muted-foreground">
             Why Elara Arena is the better choice for{" "}
-            {competitor === "playvs"
+            {validCompetitor === "playvs"
               ? "college and independent esports"
               : "white label tournament management"}
           </p>
@@ -145,7 +150,8 @@ export const Compare = ({ competitor }: ComparisonPageProps) => {
           </div>
         </Card>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* 👇 THIS IS THE CORRECTED GRID WRAPPER (Changed gap-6 to gap-12) 👇 */}
+        <div className="grid md:grid-cols-2 gap-12">
           <Card
             heading="Elara Arena"
             description="White Label Esports Platform with Sponsor Integration"
@@ -154,7 +160,7 @@ export const Compare = ({ competitor }: ComparisonPageProps) => {
               <div>
                 <h3 className="font-semibold mb-2">Best For:</h3>
                 <p className="text-sm text-muted-foreground">
-                  {competitor === "playvs"
+                  {validCompetitor === "playvs"
                     ? "College esports, independent leagues, gaming venues, branded tournaments"
                     : "Organizations wanting full customization with sponsor monetization"}
                 </p>
@@ -219,6 +225,7 @@ export const Compare = ({ competitor }: ComparisonPageProps) => {
             </div>
           </Card>
         </div>
+        {/* 👆 END OF UPDATED GRID WRAPPER 👆 */}
 
         <Card className="bg-primary/5 border-primary">
           <div className="p-8">
@@ -235,7 +242,7 @@ export const Compare = ({ competitor }: ComparisonPageProps) => {
                 <p className="text-sm text-muted-foreground">
                   Fully customize your tournament platform with your brand
                   colors, logo, and domain. {data.name}{" "}
-                  {competitor === "toornament"
+                  {validCompetitor === "toornament"
                     ? "requires enterprise contracts"
                     : "doesn't offer this"}
                   .
@@ -257,12 +264,12 @@ export const Compare = ({ competitor }: ComparisonPageProps) => {
               <div>
                 <h3 className="font-semibold mb-2 flex items-center gap-2">
                   <Check className="h-5 w-5 text-primary" />
-                  {competitor === "playvs"
+                  {validCompetitor === "playvs"
                     ? "College & Independent League Support"
                     : "No Lock-In Contracts"}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  {competitor === "playvs"
+                  {validCompetitor === "playvs"
                     ? "Unlike PlayVS which only serves K-12 schools, Elara supports college esports, independent leagues, and gaming venues."
                     : "Start free and scale as you grow. No enterprise contracts or complex pricing tiers."}
                 </p>
