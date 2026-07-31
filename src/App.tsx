@@ -13,6 +13,7 @@ import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
 import LeagueRegistration from './pages/LeagueRegistration';
 import TutorialRunCollegeTournament from './pages/TutorialRunCollegeTournament';
+import Compare from './pages/Compare';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
 
           {/* Miscellanous routes */}
           <Route path="/how-to-college-tourney" element={<TutorialRunCollegeTournament />} />
+          <Route path="/compare/:competitor" element={<Compare />} />
         </Routes>
       </MainLayout>
     </Router>
