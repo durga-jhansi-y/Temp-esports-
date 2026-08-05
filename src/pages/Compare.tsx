@@ -3,6 +3,7 @@ import { Card } from "../components/ui/Card";
 import { Check, X } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useNavigate, useParams, Navigate } from "react-router-dom";
+import styles from "./Compare.module.css";
 
 const competitorData = {
   challonge: {
@@ -99,7 +100,7 @@ export const Compare = () => {
   const seoDescription = `Compare Elara Arena vs ${data.name}. Elara offers white label customization, sponsor integration, and NIL marketplace that ${data.name} doesn't. See the full comparison.`;
 
   return (
-    <main className="min-h-screen px-6">
+    <main className={styles.comparePage}>
       <SEOHead
         title={seoTitle}
         description={seoDescription}
@@ -107,42 +108,37 @@ export const Compare = () => {
         canonical={`https://hub.esportsleaguehub.com/compare/${validCompetitor}`}
       />
 
-      <div className="max-w-6xl mx-auto space-y-8 py-8">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold">Elara Arena vs {data.name}</h1>
-          <p className="text-xl text-muted-foreground">
+      <div className={styles.container}>
+        <section className={styles.hero}>
+          <h1>Elara Arena vs {data.name}</h1>
+          <p>
             Why Elara Arena is the better choice for{" "}
             {validCompetitor === "playvs"
               ? "college and independent esports"
               : "white label tournament management"}
           </p>
-        </div>
+        </section>
 
         <Card
+          className={styles.centeredCard}
           heading="Feature Comparison"
           description={`Side-by-side comparison of Elara Arena and ${data.name}`}
         >
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className={styles.tableWrapper}>
+            <table className={styles.comparisonTable}>
               <thead>
-                <tr className="border-b">
-                  <th className="text-left p-4 font-semibold">Feature</th>
-                  <th className="text-center p-4 font-semibold text-primary">
-                    Elara Arena
-                  </th>
-                  <th className="text-center p-4 font-semibold">{data.name}</th>
+                <tr>
+                  <th>Feature</th>
+                  <th>Elara Arena</th>
+                  <th>{data.name}</th>
                 </tr>
               </thead>
               <tbody>
                 {data.features.map((item, index) => (
-                  <tr key={index} className="border-b hover:bg-muted/50">
-                    <td className="p-4">{item.feature}</td>
-                    <td className="text-center p-4">
-                      {renderFeatureValue(item.elara)}
-                    </td>
-                    <td className="text-center p-4">
-                      {renderFeatureValue(item.competitor)}
-                    </td>
+                  <tr key={index}>
+                    <td>{item.feature}</td>
+                    <td>{renderFeatureValue(item.elara)}</td>
+                    <td>{renderFeatureValue(item.competitor)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -150,60 +146,65 @@ export const Compare = () => {
           </div>
         </Card>
 
-        {/* 👇 THIS IS THE CORRECTED GRID WRAPPER (Changed gap-6 to gap-12) 👇 */}
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className={styles.cardGrid}>
           <Card
+            className={styles.centeredCard}
             heading="Elara Arena"
             description="White Label Esports Platform with Sponsor Integration"
           >
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold mb-2">Best For:</h3>
-                <p className="text-sm text-muted-foreground">
+            <div className={styles.cardContent}>
+              <section className={styles.infoBlock}>
+                <h3>Best For:</h3>
+                <p>
                   {validCompetitor === "playvs"
                     ? "College esports, independent leagues, gaming venues, branded tournaments"
                     : "Organizations wanting full customization with sponsor monetization"}
                 </p>
-              </div>
+              </section>
 
-              <div>
-                <h3 className="font-semibold mb-2">Pricing:</h3>
-                <p className="text-sm text-muted-foreground">
-                  Free tier with white label options available
-                </p>
-              </div>
+              <section className={styles.infoBlock}>
+                <h3>Pricing:</h3>
+                <p>Free tier with white label options available</p>
+              </section>
 
-              <div>
-                <h3 className="font-semibold mb-2">Unique Advantages:</h3>
-                <ul className="text-sm space-y-1 text-muted-foreground">
+              <section className={styles.infoBlock}>
+                <h3>Unique Advantages:</h3>
+                <ul className={styles.cleanList}>
                   <li>✓ NIL athlete marketplace</li>
                   <li>✓ Integrated sponsor visibility</li>
                   <li>✓ Complete white label customization</li>
                   <li>✓ Revenue monetization built-in</li>
                 </ul>
-              </div>
+              </section>
 
-              <Button onClick={() => navigate("/get-started")} className="w-full">
+              <Button
+                onClick={() => navigate("/get-started")}
+                className={styles.fullButton}
+              >
                 Get Started with Elara
               </Button>
             </div>
           </Card>
 
-          <Card heading={data.name} description={data.tagline}>
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold mb-2">Best For:</h3>
-                <p className="text-sm text-muted-foreground">{data.bestFor}</p>
-              </div>
+          <Card
+            className={styles.centeredCard}
+            heading={data.name}
+            description={data.tagline}
+          >
+            <div className={styles.cardContent}>
+              <section className={styles.infoBlock}>
+                <h3>Best For:</h3>
+                <p>{data.bestFor}</p>
+              </section>
 
-              <div>
-                <h3 className="font-semibold mb-2">Pricing:</h3>
-                <p className="text-sm text-muted-foreground">{data.pricing}</p>
-              </div>
+              <section className={styles.infoBlock}>
+                <h3>Pricing:</h3>
+                <p>{data.pricing}</p>
+              </section>
 
-              <div>
-                <h3 className="font-semibold mb-2">Limitations:</h3>
-                <ul className="text-sm space-y-1 text-muted-foreground">
+              <section className={styles.infoBlock}>
+                <h3>Limitations:</h3>
+                <ul className={styles.cleanList}>
                   {data.features
                     .filter(
                       (feature) =>
@@ -221,25 +222,24 @@ export const Compare = () => {
                       </li>
                     ))}
                 </ul>
-              </div>
+              </section>
             </div>
           </Card>
         </div>
-        {/* 👆 END OF UPDATED GRID WRAPPER 👆 */}
 
-        <Card className="bg-primary/5 border-primary">
-          <div className="p-8">
-            <h2 className="text-2xl font-bold mb-4">
+        <Card className={`${styles.centeredCard} ${styles.highlightCard}`}>
+          <section className={styles.fullWidthCardContent}>
+            <h2 className={styles.sectionTitle}>
               Why Organizations Choose Elara Over {data.name}
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
-                  <Check className="h-5 w-5 text-primary" />
+            <div className={styles.reasonGrid}>
+              <article className={styles.reasonItem}>
+                <h3 className={styles.reasonTitle}>
+                  <Check className={styles.inlineIcon} />
                   Complete White Label Control
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p>
                   Fully customize your tournament platform with your brand
                   colors, logo, and domain. {data.name}{" "}
                   {validCompetitor === "toornament"
@@ -247,57 +247,57 @@ export const Compare = () => {
                     : "doesn't offer this"}
                   .
                 </p>
-              </div>
+              </article>
 
-              <div>
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
-                  <Check className="h-5 w-5 text-primary" />
+              <article className={styles.reasonItem}>
+                <h3 className={styles.reasonTitle}>
+                  <Check className={styles.inlineIcon} />
                   Built-In Sponsor Monetization
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p>
                   Generate revenue through integrated sponsor placements, banner
                   ads, and NIL athlete profiles. Turn tournaments into profit
                   centers.
                 </p>
-              </div>
+              </article>
 
-              <div>
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
-                  <Check className="h-5 w-5 text-primary" />
+              <article className={styles.reasonItem}>
+                <h3 className={styles.reasonTitle}>
+                  <Check className={styles.inlineIcon} />
                   {validCompetitor === "playvs"
                     ? "College & Independent League Support"
                     : "No Lock-In Contracts"}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p>
                   {validCompetitor === "playvs"
                     ? "Unlike PlayVS which only serves K-12 schools, Elara supports college esports, independent leagues, and gaming venues."
                     : "Start free and scale as you grow. No enterprise contracts or complex pricing tiers."}
                 </p>
-              </div>
+              </article>
 
-              <div>
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
-                  <Check className="h-5 w-5 text-primary" />
+              <article className={styles.reasonItem}>
+                <h3 className={styles.reasonTitle}>
+                  <Check className={styles.inlineIcon} />
                   NIL Athlete Marketplace
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p>
                   First platform with integrated NIL (Name, Image, Likeness)
                   athlete profiles for college esports monetization
                   opportunities.
                 </p>
-              </div>
+              </article>
             </div>
-          </div>
+          </section>
         </Card>
 
-        <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold">Ready to Switch to Elara Arena?</h2>
-          <p className="text-muted-foreground">
+        <section className={styles.cta}>
+          <h2>Ready to Switch to Elara Arena?</h2>
+          <p>
             Join hundreds of tournament organizers who've made the switch from{" "}
             {data.name}
           </p>
 
-          <div className="flex gap-4 justify-center">
+          <div className={styles.ctaButtons}>
             <Button size="large" onClick={() => navigate("/get-started")}>
               Get Started Free
             </Button>
@@ -309,7 +309,7 @@ export const Compare = () => {
               Learn More
             </Button>
           </div>
-        </div>
+        </section>
       </div>
     </main>
   );
@@ -317,14 +317,14 @@ export const Compare = () => {
 
 function renderFeatureValue(value: boolean | string) {
   if (value === true) {
-    return <Check className="h-5 w-5 text-green-600 mx-auto" />;
+    return <Check className={styles.checkIcon} />;
   }
 
   if (value === false) {
-    return <X className="h-5 w-5 text-red-500 mx-auto" />;
+    return <X className={styles.xIcon} />;
   }
 
-  return <span className="text-sm text-muted-foreground">{value}</span>;
+  return <span className={styles.limitedText}>{value}</span>;
 }
 
 export default Compare;
