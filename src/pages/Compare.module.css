@@ -1,0 +1,264 @@
+.comparePage {
+  min-height: 100vh;
+  padding: 56px 24px 80px;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.hero {
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: 44px;
+  line-height: 1.1;
+  color: var(--text-h);
+  font-family: var(--heading);
+}
+
+.hero p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.centeredCard {
+  text-align: center;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.comparisonTable th,
+.comparisonTable td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.comparisonTable th {
+  color: var(--text-h);
+  font-weight: 700;
+}
+
+.comparisonTable th:first-child,
+.comparisonTable td:first-child {
+  text-align: left;
+}
+
+.comparisonTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  align-items: stretch;
+}
+
+.cardContent {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+}
+
+.infoBlock {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.infoBlock h3 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text-h);
+  font-family: var(--heading);
+}
+
+.infoBlock p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.cleanList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.fullButton {
+  width: 100%;
+  max-width: 280px;
+  margin-top: auto;
+}
+
+.highlightCard {
+  border-color: var(--accent-border);
+  background: rgba(139, 92, 246, 0.04);
+}
+
+.fullWidthCardContent {
+  padding: 16px 8px 24px;
+  text-align: center;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.25;
+  color: var(--text-h);
+  font-family: var(--heading);
+}
+
+.reasonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 42px 48px;
+  margin-top: 36px;
+}
+
+.reasonItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.reasonTitle {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+  color: var(--text-h);
+  font-family: var(--heading);
+}
+
+.reasonItem p {
+  margin: 0;
+  max-width: 480px;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.cta {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cta h2 {
+  margin: 0;
+  font-size: 28px;
+  color: var(--text-h);
+  font-family: var(--heading);
+}
+
+.cta p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.ctaButtons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.checkIcon {
+  width: 22px;
+  height: 22px;
+  margin: 0 auto;
+  color: #22c55e;
+}
+
+.xIcon {
+  width: 22px;
+  height: 22px;
+  margin: 0 auto;
+  color: #ef4444;
+}
+
+.inlineIcon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: #22c55e;
+}
+
+.limitedText {
+  color: var(--text);
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .comparePage {
+    padding: 36px 16px 64px;
+  }
+
+  .container {
+    gap: 40px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .cardGrid,
+  .reasonGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .comparisonTable th,
+  .comparisonTable td {
+    padding: 14px 12px;
+  }
+
+  .sectionTitle,
+  .cta h2 {
+    font-size: 24px;
+  }
+}
