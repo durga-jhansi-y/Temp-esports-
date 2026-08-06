@@ -1,13 +1,15 @@
+/* --- Main Layout & Container (Matched to Compare Page) --- */
 .mainLayout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  padding: 56px 24px 80px;
 
   /* Matches Landing Page dark theme & ambient purple radial glows */
   background-color: #0a0a0b;
-  background-image: 
+  background-image:
     radial-gradient(circle at 15% 25%, rgba(122, 92, 255, 0.18) 0%, transparent 45%),
     radial-gradient(circle at 85% 65%, rgba(168, 144, 255, 0.12) 0%, transparent 45%),
     linear-gradient(to bottom, rgba(10, 10, 11, 0.93), rgba(10, 10, 11, 0.98)),
@@ -20,11 +22,39 @@
 }
 
 .container {
-  padding: 3rem 1.5rem;
-  max-width: 900px;
+  max-width: 1120px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
   width: 100%;
   z-index: 1;
+}
+
+/* --- Hero / Header Section --- */
+.hero {
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: 44px;
+  line-height: 1.1;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #cbd5e1; /* slate-300 equivalent */
 }
 
 /* Glassmorphic Badge */
@@ -40,7 +70,6 @@
   font-weight: 700;
   text-transform: uppercase;
   backdrop-filter: blur(4px);
-  margin-bottom: 1rem;
 }
 
 /* Typography Gradient */
@@ -50,22 +79,17 @@
   -webkit-text-fill-color: transparent;
 }
 
-.headingMain {
-  font-size: 2.75rem;
-  font-weight: 800;
-  line-height: 1.2;
-  color: #ffffff;
-}
-
 .metaInfo {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   font-size: 0.875rem;
   color: #a0aec0;
+  margin-top: 8px;
 }
 
-/* Base Glassmorphic Card Styling */
+/* --- Base Glassmorphic Card Styling --- */
 .cardGlass {
   position: relative;
   background-color: rgba(17, 17, 21, 0.85);
@@ -77,21 +101,19 @@
   overflow: hidden;
   
   /* Smooth Fade-Up Hover Transition */
-  transition: 
+  transition:
     transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, box-shadow;
 }
 
-/* Hover state: Smooth Lift & Glow */
 .cardGlass:hover {
   transform: translateY(-6px);
   border-color: rgba(122, 92, 255, 0.45);
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 35px rgba(122, 92, 255, 0.22);
 }
 
-/* Internal Card Layout Classes */
 .cardHeader {
   padding: 2rem 2rem 0 2rem;
   display: flex;
@@ -126,7 +148,6 @@
   background: linear-gradient(90deg, #7a5cff 0%, #a890ff 100%);
 }
 
-/* Callouts / Highlights inside cards */
 .infoCallout {
   background: rgba(122, 92, 255, 0.08);
   border: 1px solid rgba(122, 92, 255, 0.25);
@@ -134,7 +155,7 @@
   padding: 1rem;
 }
 
-/* CTA Buttons */
+/* --- CTA Buttons --- */
 .ctaButtonPrimary {
   background: linear-gradient(135deg, #7a5cff 0%, #6344f5 100%) !important;
   color: #ffffff !important;
@@ -160,6 +181,7 @@
   border-color: rgba(122, 92, 255, 0.6) !important;
 }
 
+/* --- Utilities & Internal Section Layout --- */
 .textMuted {
   color: #a0aec0;
 }
@@ -168,33 +190,55 @@
   color: #a890ff;
 }
 
+.stepWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .sectionTitle {
-  font-size: 1.85rem;
+  font-size: 28px; /* Matched to comparePage sectionTitle */
+  line-height: 1.25;
   font-weight: 700;
   color: #ffffff;
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin: 0;
 }
 
-/* --- Custom Layout Spacing (Bypassing Tailwind) --- */
-
-.articleWrapper {
+.faqSection {
+  border-top: 1px solid rgba(148, 163, 184, 0.2); /* slate-800 equivalent */
+  padding-top: 48px;
   display: flex;
   flex-direction: column;
-  gap: 6rem; /* 96px gap between major steps */
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  gap: 24px;
 }
 
-.stepWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem; /* 40px gap between Step Header and Cards */
+.navSection {
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  padding-top: 32px;
 }
 
-.headerWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* 16px gap for the top intro text */
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .mainLayout {
+    padding: 36px 16px 64px;
+  }
+
+  .container {
+    gap: 40px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
 }
