@@ -57,6 +57,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
 
+                        // Public read-only endpoints for leagues and tournaments
+                        .requestMatchers(HttpMethod.GET, "/api/leagues/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/tournaments/**").permitAll()
+
                         // H2 console access in dev (restrict in production)
                         .requestMatchers("/h2-console/**").permitAll()
 

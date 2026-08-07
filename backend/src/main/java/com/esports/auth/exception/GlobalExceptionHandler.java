@@ -70,11 +70,27 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 409 – Duplicate email or username on registration
+     * 409 – Duplicate email or username on registration, or duplicate league name
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> handleConflict(IllegalArgumentException ex) {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), null);
+    }
+
+    /**
+     * 400 – Business rule violations (e.g. endDate before startDate)
+     */
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalState(IllegalStateException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), null);
+    }
+
+    /**
+     * 404 – League, Tournament, or other resource not found
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFound(ResourceNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), null);
     }
 
     /**
