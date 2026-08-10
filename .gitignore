@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ─── Spring Boot / Maven backend ──────────────────────────────────────────
+backend/target/
+backend/.mvn/repository/
+
+# Environment / secrets — never commit real secrets
+.env
+*.env
+application-prod.properties
