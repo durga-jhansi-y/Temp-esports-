@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,28 +30,71 @@ public class TeamMatchSecurityConfig {
     @Order(2)
     public SecurityFilterChain teamMatchSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/teams", "/api/teams/**", "/api/matches", "/api/matches/**")
+                .securityMatcher(
+                        "/api/teams",
+                        "/api/teams/**",
+                        "/api/matches",
+                        "/api/matches/**"
+                )
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+
+                .authorizeHttpRequests(auth -> auth
+
+                        // Public GET endpoints - no JWT required
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/teams",
+                                "/api/teams/**",
+                                "/api/matches",
+                                "/api/matches/**"
+                        ).permitAll()
+
+                        // POST, PUT, DELETE and any other methods
+                        // still require authentication
+                        .anyRequest().authenticated()
+                )
+
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) ->
-                                writeError(response, HttpStatus.UNAUTHORIZED,
-                                        "Authentication is required"))
+                                writeError(
+                                        response,
+                                        HttpStatus.UNAUTHORIZED,
+                                        "Authentication is required"
+                                )
+                        )
                         .accessDeniedHandler((request, response, accessDeniedException) ->
-                                writeError(response, HttpStatus.FORBIDDEN,
-                                        "Access denied: insufficient permissions")))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                                writeError(
+                                        response,
+                                        HttpStatus.FORBIDDEN,
+                                        "Access denied: insufficient permissions"
+                                )
+                        )
+                )
+
+                .addFilterBefore(
+                        jwtAuthFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
 
-    private void writeError(HttpServletResponse response, HttpStatus status, String message)
-            throws IOException {
+    private void writeError(
+            HttpServletResponse response,
+            HttpStatus status,
+            String message
+    ) throws IOException {
+
         response.setStatus(status.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        objectMapper.writeValue(response.getOutputStream(), ApiResponse.error(message, null));
+
+        objectMapper.writeValue(
+                response.getOutputStream(),
+                ApiResponse.error(message, null)
+        );
     }
 }
-
