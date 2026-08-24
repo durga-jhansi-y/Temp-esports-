@@ -3,6 +3,9 @@ package com.esports.auth.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "teams")
 @Getter
@@ -31,4 +34,8 @@ public class Team {
     @Column(nullable = false)
     @Builder.Default
     private boolean active = true;
+
+    @OneToMany(mappedBy = "team")
+    @Builder.Default
+    private List<Player> players = new ArrayList<>();
 }
