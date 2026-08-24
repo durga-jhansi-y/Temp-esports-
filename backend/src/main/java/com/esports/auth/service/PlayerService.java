@@ -4,8 +4,10 @@ import com.esports.auth.dto.player.CreatePlayerRequest;
 import com.esports.auth.dto.player.PlayerResponse;
 import com.esports.auth.dto.player.UpdatePlayerRequest;
 import com.esports.auth.entity.Player;
+import com.esports.auth.entity.Team;
 import com.esports.auth.exception.ResourceNotFoundException;
 import com.esports.auth.repository.PlayerRepository;
+import com.esports.auth.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +20,21 @@ import java.util.List;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final TeamRepository teamRepository;
 
     public PlayerResponse createPlayer(CreatePlayerRequest request) {
         if (playerRepository.existsByGamerTag(request.getGamerTag())) {
             throw new IllegalArgumentException("Gamer tag is already taken: " + request.getGamerTag());
         }
 
+        Team team = resolveTeamByName(request.getTeamName());
+
         Player player = Player.builder()
                 .gamerTag(request.getGamerTag())
                 .displayName(request.getDisplayName())
                 .game(request.getGame())
-                .teamName(request.getTeamName())
+                .teamName(team == null ? null : team.getName())
+                .team(team)
                 .country(request.getCountry())
                 .active(request.getActive() == null || request.getActive())
                 .build();
@@ -65,7 +71,9 @@ public class PlayerService {
             player.setGame(request.getGame());
         }
         if (request.getTeamName() != null) {
-            player.setTeamName(request.getTeamName());
+            Team team = resolveTeamByName(request.getTeamName());
+            player.setTeamName(team == null ? null : team.getName());
+            player.setTeam(team);
         }
         if (request.getCountry() != null) {
             player.setCountry(request.getCountry());
@@ -85,5 +93,14 @@ public class PlayerService {
     private Player findPlayerOrThrow(Long id) {
         return playerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Player", id));
+    }
+
+    private Team resolveTeamByName(String teamName) {
+        if (teamName == null || teamName.isBlank()) {
+            return null;
+        }
+
+        return teamRepository.findByNameIgnoreCase(teamName)
+                .orElseThrow(() -> new IllegalArgumentException("Team not found: " + teamName));
     }
 }
