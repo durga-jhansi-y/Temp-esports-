@@ -162,3 +162,8 @@
     padding-inline: 10px;
   }
 }
+
+.actionButton {
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+}
