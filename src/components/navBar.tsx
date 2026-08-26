@@ -26,6 +26,10 @@ function NavBar() {
           <NavLink to="/" end className={getNavLinkClass}>Platform</NavLink>
           <NavLink to="/pricing" className={getNavLinkClass}>Pricing</NavLink>
           <NavLink to="/questions" className={getNavLinkClass}>For Players</NavLink>
+          <NavLink to="/tournament" className={getNavLinkClass}>Tournaments</NavLink>
+          <NavLink to="/live-center" className={getNavLinkClass}>Live Matches</NavLink>
+          <NavLink to="/team" className={getNavLinkClass}>Teams</NavLink>
+          <NavLink to="/rankings" className={getNavLinkClass}>Rankings</NavLink>
           <NavLink to="/trust" className={getNavLinkClass}>Trust</NavLink>
         </div>
 
