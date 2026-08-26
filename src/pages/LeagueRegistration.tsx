@@ -1,106 +1,127 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styles from './AuthPages.module.css';
 
 function LeagueRegistration() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 70px)', padding: '40px 20px' }}>
-      <div style={{ backgroundColor: '#111115', padding: '40px', borderRadius: '12px', border: '1px solid #27272A', width: '100%', maxWidth: '450px', textAlign: 'center' }}>
-        
-        <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', margin: '0 0 8px 0', color: 'white' }}>Launch your league</h2>
-        <p style={{ color: '#A1A1AA', fontSize: '0.9rem', margin: '0 0 32px 0' }}>Spin up your own branded esports platform in minutes.</p>
+    <section className={styles.page}>
+      <div className={`${styles.card} ${styles.leagueCard}`}>
+        <span className={styles.badge}>
+          <span className={styles.badgeDot} aria-hidden="true" />
+          Public · League setup
+        </span>
 
-        <form style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
-          
-          <div>
-            <label style={{ display: 'block', color: 'white', fontSize: '0.85rem', marginBottom: '8px', fontWeight: 'bold' }}>Organization name</label>
-            <input 
-              type="text" 
-              placeholder="Acme Esports League" 
-              style={{ backgroundColor: '#16161A', border: '1px solid #27272A', color: 'white', padding: '12px', borderRadius: '6px', width: '100%', boxSizing: 'border-box', outline: 'none' }} 
+        <h1 className={styles.title}>
+          Launch your <span className={styles.gradientText}>league.</span>
+        </h1>
+        <p className={styles.subtitle}>Spin up your own branded esports platform in minutes.</p>
+
+        <form className={styles.form}>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="organization-name">Organization name</label>
+            <input
+              id="organization-name"
+              className={styles.input}
+              type="text"
+              placeholder="Acme Esports League"
+              autoComplete="organization"
             />
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: 'white', fontSize: '0.85rem', marginBottom: '8px', fontWeight: 'bold' }}>Your address</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <input 
-                type="text" 
-                placeholder="acme" 
-                style={{ flex: 1, backgroundColor: '#16161A', border: '1px solid #27272A', color: 'white', padding: '12px', borderRadius: '6px', outline: 'none' }} 
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="league-address">Your address</label>
+            <div className={styles.inlineAddress}>
+              <input
+                id="league-address"
+                className={styles.input}
+                type="text"
+                placeholder="acme"
+                spellCheck={false}
               />
-              <span style={{ color: '#A1A1AA', fontSize: '0.9rem' }}>.esportsleaguehub.com</span>
+              <span className={styles.domainSuffix}>.esportsleaguehub.com</span>
             </div>
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: 'white', fontSize: '0.85rem', marginBottom: '8px', fontWeight: 'bold' }}>Your name</label>
-            <input 
-              type="text" 
-              placeholder="Jordan Smith" 
-              style={{ backgroundColor: '#16161A', border: '1px solid #27272A', color: 'white', padding: '12px', borderRadius: '6px', width: '100%', boxSizing: 'border-box', outline: 'none' }} 
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="owner-name">Your name</label>
+            <input
+              id="owner-name"
+              className={styles.input}
+              type="text"
+              placeholder="Jordan Smith"
+              autoComplete="name"
             />
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: 'white', fontSize: '0.85rem', marginBottom: '8px', fontWeight: 'bold' }}>Email</label>
-            <input 
-              type="email" 
-              placeholder="you@acme.com" 
-              style={{ backgroundColor: '#16161A', border: '1px solid #27272A', color: 'white', padding: '12px', borderRadius: '6px', width: '100%', boxSizing: 'border-box', outline: 'none' }} 
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="league-email">Email</label>
+            <input
+              id="league-email"
+              className={styles.input}
+              type="email"
+              placeholder="you@acme.com"
+              autoComplete="email"
             />
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: 'white', fontSize: '0.85rem', marginBottom: '8px', fontWeight: 'bold' }}>Password</label>
-            <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#16161A', border: '1px solid #27272A', borderRadius: '6px', paddingRight: '12px' }}>
-              <input 
-                type={showPassword ? 'text' : 'password'} 
-                placeholder="At least 6 characters" 
-                style={{ flex: 1, backgroundColor: 'transparent', border: 'none', color: 'white', padding: '12px', outline: 'none' }} 
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="league-password">Password</label>
+            <div className={styles.inputShell}>
+              <input
+                id="league-password"
+                className={styles.input}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="At least 6 characters"
+                autoComplete="new-password"
               />
-              <button 
-                type="button" 
+              <button
+                className={styles.passwordToggle}
+                type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', fontSize: '0.8rem' }}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
           </div>
 
-          <div>
-            <label style={{ display: 'block', color: 'white', fontSize: '0.85rem', marginBottom: '8px', fontWeight: 'bold' }}>Confirm password</label>
-            <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#16161A', border: '1px solid #27272A', borderRadius: '6px', paddingRight: '12px' }}>
-              <input 
-                type={showConfirmPassword ? 'text' : 'password'} 
-                placeholder="Re-enter password" 
-                style={{ flex: 1, backgroundColor: 'transparent', border: 'none', color: 'white', padding: '12px', outline: 'none' }} 
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="league-confirm-password">Confirm password</label>
+            <div className={styles.inputShell}>
+              <input
+                id="league-confirm-password"
+                className={styles.input}
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder="Re-enter password"
+                autoComplete="new-password"
               />
-              <button 
-                type="button" 
+              <button
+                className={styles.passwordToggle}
+                type="button"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
-                style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', fontSize: '0.8rem' }}
+                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
               >
                 {showConfirmPassword ? 'Hide' : 'Show'}
               </button>
             </div>
           </div>
 
-          <button 
-            type="button" 
-            style={{ marginTop: '16px', padding: '12px', borderRadius: '6px', backgroundColor: '#8b8b8f', color: 'black', fontWeight: 'bold', border: 'none', cursor: 'pointer', width: '100%' }}>
-            Create my league
-          </button>
+          <button className={styles.primaryButton} type="button">Create my league</button>
         </form>
 
-        <p style={{ color: '#A1A1AA', fontSize: '0.85rem', marginTop: '24px' }}>
-          Already have an account? <Link to="/login" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>Sign In</Link>
+        <div className={styles.previewNote}>
+          Frontend setup only. This keeps your current league-creation behavior unchanged and does not add or modify backend authentication.
+        </div>
+
+        <p className={styles.footerText}>
+          Already have an account?
+          <Link className={styles.textLink} to="/login">Sign In</Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -1,76 +1,97 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styles from './AuthPages.module.css';
 
-{/* PlayerRegistration Page */}
 function RegistrationPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 70px)', padding: '20px' }}>
-      <div style={{ backgroundColor: '#111115', padding: '40px', borderRadius: '12px', border: '1px solid #27272A', width: '100%', maxWidth: '400px', textAlign: 'center' }}>
-        
-        <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', margin: '0 0 8px 0', color: 'white' }}>Create an Account</h2>
-        <p style={{ color: '#A1A1AA', fontSize: '0.9rem', margin: '0 0 24px 0' }}>Enter your details to register</p>
+    <section className={styles.page}>
+      <div className={styles.card}>
+        <span className={styles.badge}>
+          <span className={styles.badgeDot} aria-hidden="true" />
+          Player registration
+        </span>
 
-        <form style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
-          
-          <input 
-            type="email" 
-            placeholder="Email" 
-            style={{ backgroundColor: '#16161A', border: '1px solid #27272A', color: 'white', padding: '12px', borderRadius: '6px', width: '100%', boxSizing: 'border-box', outline: 'none' }} 
-          />
+        <h1 className={styles.title}>
+          Create an <span className={styles.gradientText}>account.</span>
+        </h1>
+        <p className={styles.subtitle}>Enter your details to register for Esports League Hub.</p>
 
-          <div>
-            <label style={{ display: 'block', color: 'white', fontSize: '0.85rem', marginBottom: '8px', fontWeight: 'bold' }}>Date of birth</label>
-            <input 
-              type="date" 
-              style={{ backgroundColor: '#16161A', border: '1px solid #27272A', color: '#A1A1AA', padding: '12px', borderRadius: '6px', width: '100%', boxSizing: 'border-box', outline: 'none', colorScheme: 'dark' }} 
+        <form className={styles.form}>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="register-email">Email</label>
+            <input
+              id="register-email"
+              className={styles.input}
+              type="email"
+              placeholder="you@example.com"
+              autoComplete="email"
             />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#16161A', border: '1px solid #27272A', borderRadius: '6px', paddingRight: '12px' }}>
-            <input 
-              type={showPassword ? 'text' : 'password'} 
-              placeholder="Password" 
-              style={{ flex: 1, backgroundColor: 'transparent', border: 'none', color: 'white', padding: '12px', outline: 'none' }} 
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="register-dob">Date of birth</label>
+            <input
+              id="register-dob"
+              className={styles.input}
+              type="date"
+              autoComplete="bday"
             />
-            <button 
-              type="button" 
-              onClick={() => setShowPassword((prev) => !prev)}
-              style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', fontSize: '0.8rem' }}
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#16161A', border: '1px solid #27272A', borderRadius: '6px', paddingRight: '12px' }}>
-            <input 
-              type={showConfirmPassword ? 'text' : 'password'} 
-              placeholder="Confirm Password" 
-              style={{ flex: 1, backgroundColor: 'transparent', border: 'none', color: 'white', padding: '12px', outline: 'none' }} 
-            />
-            <button 
-              type="button" 
-              onClick={() => setShowConfirmPassword((prev) => !prev)}
-              style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', fontSize: '0.8rem' }}
-            >
-              {showConfirmPassword ? 'Hide' : 'Show'}
-            </button>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="register-password">Password</label>
+            <div className={styles.inputShell}>
+              <input
+                id="register-password"
+                className={styles.input}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                autoComplete="new-password"
+              />
+              <button
+                className={styles.passwordToggle}
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </div>
 
-          <button 
-            type="button" 
-            style={{ marginTop: '8px', padding: '12px', borderRadius: '6px', backgroundColor: 'white', color: 'black', fontWeight: 'bold', border: 'none', cursor: 'pointer', width: '100%' }}>
-            Register
-          </button>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="register-confirm-password">Confirm password</label>
+            <div className={styles.inputShell}>
+              <input
+                id="register-confirm-password"
+                className={styles.input}
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder="Confirm Password"
+                autoComplete="new-password"
+              />
+              <button
+                className={styles.passwordToggle}
+                type="button"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+              >
+                {showConfirmPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+          </div>
+
+          <button className={styles.primaryButton} type="button">Register</button>
         </form>
 
-        <p style={{ color: '#A1A1AA', fontSize: '0.85rem', marginTop: '24px' }}>
-          Already have an account? <Link to="/login" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>Sign In</Link>
+        <p className={styles.footerText}>
+          Already have an account?
+          <Link className={styles.textLink} to="/login">Sign In</Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 }
 

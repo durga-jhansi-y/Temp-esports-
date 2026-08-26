@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import styles from './AuthPages.module.css';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -32,91 +33,78 @@ function LoginPage() {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: 'calc(100vh - 70px)',
-        padding: '20px',
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: '#111115',
-          padding: '40px',
-          borderRadius: '12px',
-          border: '1px solid #27272A',
-          width: '100%',
-          maxWidth: '400px',
-          textAlign: 'center',
-        }}
-      >
-        <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', margin: '0 0 8px 0', color: 'white' }}>
-          Welcome Back
-        </h2>
+    <section className={styles.page}>
+      <div className={styles.card}>
+        <span className={styles.badge}>
+          <span className={styles.badgeDot} aria-hidden="true" />
+          Secure workspace access
+        </span>
 
-        <p style={{ color: '#A1A1AA', fontSize: '0.9rem', margin: '0 0 24px 0' }}>
-          Enter your credentials to access your account
-        </p>
+        <h1 className={styles.title}>
+          Welcome <span className={styles.gradientText}>back.</span>
+        </h1>
+        <p className={styles.subtitle}>Enter your credentials to access your organizer workspace.</p>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
-          <input
-            type="email"
-            placeholder="Email"
-            aria-label="Email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            required
-            autoComplete="email"
-            style={{ backgroundColor: '#16161A', border: '1px solid #27272A', color: 'white', padding: '12px', borderRadius: '6px', width: '100%', boxSizing: 'border-box', outline: 'none' }}
-          />
-
-          <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#16161A', border: '1px solid #27272A', borderRadius: '6px', paddingRight: '12px' }}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="login-email">Email</label>
             <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              aria-label="Password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              id="login-email"
+              className={styles.input}
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               required
-              autoComplete="current-password"
-              style={{ flex: 1, backgroundColor: 'transparent', border: 'none', color: 'white', padding: '12px', outline: 'none' }}
+              autoComplete="email"
             />
-            <button type="button" onClick={() => setShowPassword((prev) => !prev)} style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', fontSize: '0.8rem' }}>
-              {showPassword ? 'Hide' : 'Show'}
-            </button>
           </div>
 
-          <div style={{ textAlign: 'left', margin: '4px 0 0' }}>
-            <Link to="#" style={{ color: 'white', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 'bold' }}>
-              Forgot password?
-            </Link>
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="login-password">Password</label>
+            <div className={styles.inputShell}>
+              <input
+                id="login-password"
+                className={styles.input}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+                autoComplete="current-password"
+              />
+              <button
+                className={styles.passwordToggle}
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.forgotRow}>
+            <Link className={styles.textLink} to="#">Forgot password?</Link>
           </div>
 
           {error && (
-            <div role="alert" style={{ color: '#fda4af', background: 'rgba(244,63,94,.08)', border: '1px solid rgba(244,63,94,.2)', borderRadius: '6px', padding: '10px 12px', fontSize: '0.82rem' }}>
+            <div className={styles.error} role="alert">
               {error}
             </div>
           )}
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            style={{ marginTop: '8px', padding: '12px', borderRadius: '6px', backgroundColor: 'white', color: 'black', fontWeight: 'bold', border: 'none', cursor: isSubmitting ? 'wait' : 'pointer', width: '100%', opacity: isSubmitting ? 0.7 : 1 }}
-          >
+          <button className={styles.primaryButton} type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Signing In…' : 'Sign In'}
           </button>
         </form>
 
-        <p style={{ color: '#A1A1AA', fontSize: '0.85rem', marginTop: '24px' }}>
-          Don&apos;t have an account?{' '}
-          <Link to="/register" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>
-            Register
-          </Link>
+        <p className={styles.footerText}>
+          Don&apos;t have an account?
+          <Link className={styles.textLink} to="/register">Register</Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 }
 
