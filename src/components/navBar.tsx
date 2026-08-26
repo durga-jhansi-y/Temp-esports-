@@ -1,42 +1,56 @@
-import { Link } from 'react-router-dom';
-import '../App.css';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import styles from './navBar.module.css';
 
 function NavBar() {
-  return (
-    <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 2rem', backgroundColor: '#0f0f13', color: 'white', alignItems: 'center' }}>
-      <Link to="/" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>
-        Esports League Hub
-      </Link>
-      
-      <ul style={{ display: 'flex', gap: '2rem', listStyle: 'none', margin: 0, padding: 0 }}>
-        <li>
-          <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Platform</Link>
-        </li>
-        <li>
-          <Link to="/pricing" style={{ color: 'white', textDecoration: 'none' }}>Pricing</Link>
-        </li>
-        <li>
-          <Link to="/questions" style={{ color: 'white', textDecoration: 'none' }}>For Players</Link>
-        </li>
-        <li>
-          <Link to="/trust" style={{ color: 'white', textDecoration: 'none' }}>Trust</Link>
-        </li>
-      </ul>
+  const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `${styles.navLink} ${isActive ? styles.active : ''}`;
 
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-        <Link to="/login" style={{ textDecoration: 'none' }}>
-          <button style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}>Sign in</button>
-        </Link>
-        
-        <Link to="/register" style={{ textDecoration: 'none' }}>
-          <button style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}>Compete</button>
-        </Link>
-        
-        <Link to="/launch" style={{ textDecoration: 'none' }}>
-          <button style={{ padding: '0.5rem 1rem', borderRadius: '4px', backgroundColor: 'white', color: 'black', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}>
+  return (
+    <nav className={styles.nav}>
+      <div className={styles.navInner}>
+        <NavLink to="/" end className={styles.brand}>
+          <span className={styles.brandMark} aria-hidden="true" />
+          Esports League Hub
+        </NavLink>
+
+        <div className={styles.links}>
+          <NavLink to="/" end className={getNavLinkClass}>
+            Platform
+          </NavLink>
+
+          <NavLink to="/pricing" className={getNavLinkClass}>
+            Pricing
+          </NavLink>
+
+          <NavLink to="/questions" className={getNavLinkClass}>
+            For Players
+          </NavLink>
+
+          <NavLink to="/trust" className={getNavLinkClass}>
+            Trust
+          </NavLink>
+        </div>
+
+        <div className={styles.actions}>
+          <NavLink to="/login" className={styles.actionLink}>
+            Sign in
+          </NavLink>
+
+          <NavLink
+            to="/register"
+            className={`${styles.actionLink} ${styles.competeAction}`}
+          >
+            Compete
+          </NavLink>
+
+          <NavLink
+            to="/launch"
+            className={`${styles.actionLink} ${styles.primaryAction}`}
+          >
             Launch your league
-          </button>
-        </Link>
+          </NavLink>
+        </div>
       </div>
     </nav>
   );
