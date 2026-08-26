@@ -14,6 +14,11 @@ import RegistrationPage from './pages/RegistrationPage';
 import LeagueRegistration from './pages/LeagueRegistration';
 import TutorialRunCollegeTournament from './pages/TutorialRunCollegeTournament';
 import Compare from './pages/Compare';
+import TournamentsPage from './pages/TournamentsPage';
+import TournamentDetailPage from './pages/TournamentDetailPage';
+import LiveCenter from './pages/LiveCenter';
+import TeamsPage from './pages/TeamsPage';
+import RankingsPage from './pages/RankingsPage';
 
 function App() {
   return (
@@ -29,6 +34,11 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/launch" element={<LeagueRegistration />} />
+          <Route path="tournament" element={<TournamentsPage />} />
+          <Route path="tournament-detail" element={<TournamentDetailPage />} />
+          <Route path="live-center" element={<LiveCenter />} />
+          <Route path="team" element={<TeamsPage />} />
+          <Route path="rankings" element={<RankingsPage />} />
 
           {/* Miscellanous routes */}
           <Route path="/how-to-college-tourney" element={<TutorialRunCollegeTournament />} />

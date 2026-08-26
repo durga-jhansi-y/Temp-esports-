@@ -1,144 +1,293 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 5rem; /* Matched gap to PricingPage */
-  padding: 4rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  color: #ffffff;
+  padding: 40px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #f8f9fa; /* Assuming dark mode based on typical esports themes */
 }
 
-/* --- "The Other Door" Card Section --- */
-.otherDoorCard {
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-  background: rgba(26, 32, 44, 0.8); /* Replaced solid dark gray with Pricing planCard background */
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 3rem 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
+/* Typography & Utilities */
 .subtitle {
-  color: #ff0844; /* Matched Pricing recommended accent */
-  letter-spacing: 0.05em; /* Matched Pricing recommended badge */
+  display: inline-block;
   font-size: 0.875rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
+  font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffb199;
+  margin-bottom: 12px;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 800;
-  margin-bottom: 0.75rem;
-  display: block;
-  /* Applied Pricing hero h1 gradient */
+  line-height: 1.1;
+  margin: 0 0 16px 0;
+  color: #ffffff;
+}
+
+.grad {
   background: linear-gradient(90deg, #ff0844 0%, #ffb199 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  line-height: 1.3;
-  padding: 0.1em 0;
+  background-clip: text;
 }
 
-.description {
-  color: #a0aec0; /* Replaced #a1a1aa with Pricing paragraph text */
-  margin-bottom: 2rem;
-  display: block;
+.muted {
+  color: #a1a1aa;
   font-size: 1.125rem;
   line-height: 1.6;
+  margin: 0 0 24px 0;
 }
 
-.featuresList {
+/* Hero Section */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.buttons {
   display: flex;
-  justify-content: center;
-  gap: 2.5rem;
+  gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
 }
 
-.featureItem {
-  font-size: 1rem;
-  font-weight: 500;
+/* Player Snapshot Card */
+.heroCard {
+  background: #18181b;
+  border: 1px solid #27272a;
+  padding: 32px;
+  border-radius: 16px;
+  position: relative;
+}
+
+.tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #27272a;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #a1a1aa;
+}
+
+.profileHero {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: #e2e8f0; /* Matched Pricing list item text */
+  gap: 20px;
+  margin-top: 16px;
+  margin-bottom: 32px;
 }
 
-/* --- FAQ Section --- */
+.avatar {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.profileInfo h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.profileInfo .muted {
+  margin: 4px 0 8px 0;
+  font-size: 0.875rem;
+}
+
+.statusLive {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  border-top: 1px solid #27272a;
+  padding-top: 24px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric span {
+  font-size: 0.875rem;
+  color: #a1a1aa;
+  margin-bottom: 4px;
+}
+
+.metric strong {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.metric small {
+  font-size: 0.75rem;
+  color: #10b981;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 80px;
+}
+
+.sectionHead {
+  margin-bottom: 40px;
+  max-width: 600px;
+}
+
+.sectionHead h2 {
+  font-size: 2.25rem;
+  margin: 0 0 16px 0;
+  color: #fff;
+}
+
+.gridFour {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.gridThree {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.accentCard {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  background: #18181b;
+  border: 1px solid #27272a;
+}
+
+.accentCard:hover {
+  transform: translateY(-4px);
+  border-color: #ff0844;
+}
+
+.accentCard h3, .gridThree h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.accentCard .muted, .gridThree .muted {
+  font-size: 0.9375rem;
+  margin-bottom: 0;
+}
+
+.actionBtn {
+  margin-top: 20px;
+}
+
+/* FAQ Section */
 .faqSection {
-  max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.faqSection h2 {
-  font-size: 2.5rem; /* Scaled up to match Pricing h2s */
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 2.5rem;
+  margin-top: 80px;
+  padding-top: 80px;
+  border-top: 1px solid #27272a;
 }
 
 .faqContainer {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Added slightly more breathing room */
+  gap: 16px;
+  max-width: 800px;
 }
 
 .faqItem {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Matched Pricing table border */
-  padding-bottom: 1rem;
-  transition: border-color 0.2s ease;
-}
-
-.faqItem:hover {
-  border-color: #ff0844; /* Changed purple hover to Pricing red */
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .faqHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px 24px;
   cursor: pointer;
-  font-weight: 600; /* Matched Pricing font weights */
+  font-weight: 600;
   font-size: 1.125rem;
-  color: #e2e8f0;
-  transition: color 0.2s ease;
+  user-select: none;
+  transition: background-color 0.2s;
 }
 
 .faqHeader:hover {
-  color: #ffb199; /* Replaced purple hover with Pricing peach */
+  background: #27272a;
 }
 
 .faqIcon {
-  font-size: 0.85rem;
-  color: #ff0844; /* Changed purple icon to Pricing red */
-  transition: transform 0.2s ease;
+  font-size: 0.875rem;
+  color: #a1a1aa;
 }
 
 .faqAnswer {
-  color: #a0aec0; /* Replaced #a1a1aa with Pricing paragraph text */
-  margin-top: 0.75rem;
-  font-size: 1rem;
+  margin: 0;
+  padding: 0 24px 24px 24px;
+  color: #a1a1aa;
   line-height: 1.6;
 }
 
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
+/* Responsive adjustments */
+@media (max-width: 968px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .gridFour {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
   .title {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
   
-  .faqSection h2 {
-    font-size: 2rem;
+  .gridFour, .gridThree {
+    grid-template-columns: 1fr;
   }
   
-  .featuresList {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
