@@ -1,36 +1,69 @@
 package com.esports.auth.config;
 
 import com.esports.auth.security.JwtAuthFilter;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpMethod;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
+import org.springframework.security.config.Customizer;
+
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+
 import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Spring Security configuration.
  *
  * Security design decisions:
- * - STATELESS session — no server-side sessions; JWT carries all auth state.
- * - CSRF disabled — appropriate for stateless REST APIs using JWT.
- * - Auth endpoints are public; all other endpoints require authentication.
- * - JWT filter is placed before UsernamePasswordAuthenticationFilter.
- * - BCrypt is used for password encoding.
- * - @EnableMethodSecurity enables @PreAuthorize annotations for fine-grained RBAC.
+ *
+ * - STATELESS session:
+ *   No server-side sessions.
+ *   JWT carries authentication state.
+ *
+ * - CSRF disabled:
+ *   Appropriate for a stateless REST API
+ *   using JWT authentication.
+ *
+ * - CORS enabled:
+ *   Allows the React/Vite frontend to communicate
+ *   with Spring Boot.
+ *
+ * - Authentication endpoints are public.
+ *
+ * - JWT filter runs before Spring Security's
+ *   UsernamePasswordAuthenticationFilter.
+ *
+ * - BCrypt is used for passwords.
+ *
+ * - @EnableMethodSecurity allows @PreAuthorize.
  */
 @Configuration
 @EnableWebSecurity
@@ -39,54 +72,151 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+
     private final UserDetailsService userDetailsService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
+
         http
-                // Disable CSRF — not needed for stateless JWT-based REST API
-                .csrf(AbstractHttpConfigurer::disable)
 
-                // Allow H2 console frames in development (X-Frame-Options)
-                .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-
-                // Authorization rules
-                .authorizeHttpRequests(auth -> auth
-                        // Public auth endpoints
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-
-                        // Public read-only endpoints for leagues and tournaments
-                        .requestMatchers(HttpMethod.GET, "/api/leagues/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/tournaments/**").permitAll()
-
-                        // H2 console access in dev (restrict in production)
-                        .requestMatchers("/h2-console/**").permitAll()
-
-                        // Admin-only endpoints
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-
-                        // All other requests require authentication
-                        .anyRequest().authenticated()
+                /*
+                 * Stateless JWT API does not use
+                 * browser cookie-based CSRF protection.
+                 */
+                .csrf(
+                        AbstractHttpConfigurer::disable
                 )
 
-                // Stateless session — no server-side session created or used
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                /*
+                 * Use the centralized CorsConfigurationSource
+                 * defined in CorsConfig.java.
+                 */
+                .cors(
+                        Customizer.withDefaults()
+                )
 
-                // Wire up the custom DaoAuthenticationProvider
-                .authenticationProvider(authenticationProvider())
+                /*
+                 * Allow the H2 console to appear in an iframe.
+                 *
+                 * Required for:
+                 *
+                 * http://localhost:8080/h2-console
+                 */
+                .headers(
+                        headers ->
+                                headers.frameOptions(
+                                        HeadersConfigurer
+                                                .FrameOptionsConfig
+                                                ::sameOrigin
+                                )
+                )
 
-                // Add JWT filter before Spring's default UsernamePasswordAuthenticationFilter
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                /*
+                 * API authorization rules.
+                 */
+                .authorizeHttpRequests(
+                        auth -> auth
+
+                                /*
+                                 * Registration does not require
+                                 * an existing JWT.
+                                 */
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/auth/register"
+                                )
+                                .permitAll()
+
+                                /*
+                                 * Login does not require
+                                 * an existing JWT.
+                                 */
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/auth/login"
+                                )
+                                .permitAll()
+
+                                /*
+                                 * Existing public league GET routes.
+                                 */
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/leagues/**"
+                                )
+                                .permitAll()
+
+                                /*
+                                 * Existing public tournament GET routes.
+                                 */
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/tournaments/**"
+                                )
+                                .permitAll()
+
+                                /*
+                                 * H2 console for development testing.
+                                 *
+                                 * Production configuration should
+                                 * normally disable this.
+                                 */
+                                .requestMatchers(
+                                        "/h2-console/**"
+                                )
+                                .permitAll()
+
+                                /*
+                                 * Admin-only backend routes.
+                                 */
+                                .requestMatchers(
+                                        "/api/admin/**"
+                                )
+                                .hasRole("ADMIN")
+
+                                /*
+                                 * Everything else requires
+                                 * authentication.
+                                 */
+                                .anyRequest()
+                                .authenticated()
+                )
+
+                /*
+                 * JWT authentication is stateless.
+                 */
+                .sessionManagement(
+                        session ->
+                                session.sessionCreationPolicy(
+                                        SessionCreationPolicy.STATELESS
+                                )
+                )
+
+                /*
+                 * Use the configured username/password
+                 * AuthenticationProvider for login.
+                 */
+                .authenticationProvider(
+                        authenticationProvider()
+                )
+
+                /*
+                 * Read and authenticate JWT Bearer tokens
+                 * before Spring's username/password filter.
+                 */
+                .addFilterBefore(
+                        jwtAuthFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
 
     /**
-     * BCryptPasswordEncoder bean — used for hashing passwords on registration
-     * and verifying them on login.
+     * Password hashing configuration.
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -94,22 +224,38 @@ public class SecurityConfig {
     }
 
     /**
-     * DaoAuthenticationProvider wired with our UserDetailsService and BCrypt encoder.
+     * Connects Spring Authentication to:
+     *
+     * - UserDetailsService
+     * - BCryptPasswordEncoder
      */
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
+
+        DaoAuthenticationProvider provider =
+                new DaoAuthenticationProvider();
+
+        provider.setUserDetailsService(
+                userDetailsService
+        );
+
+        provider.setPasswordEncoder(
+                passwordEncoder()
+        );
+
         return provider;
     }
 
     /**
-     * AuthenticationManager — required by AuthService to trigger authentication.
+     * AuthenticationManager is used by AuthService
+     * when validating login credentials.
      */
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+            AuthenticationConfiguration configuration
+    ) throws Exception {
+
+        return configuration
+                .getAuthenticationManager();
     }
 }
