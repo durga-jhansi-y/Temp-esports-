@@ -38,7 +38,9 @@ function RegistrationPage() {
       const destination =
         session.user.role === 'ADMIN'
           ? '/admin'
-          : '/dashboard';
+          : session.user.role === 'PLAYER'
+            ? '/player-dashboard'
+            : '/dashboard';
 
       navigate(destination, {
         replace: true,
