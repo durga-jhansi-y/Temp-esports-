@@ -14,6 +14,19 @@ const workspaceLinks = [
   { to: '/help', icon: '?', label: 'Help' },
 ];
 
+const playerLinks = [
+  { to: '/player-dashboard', icon: '◉', label: 'Player Dashboard' },
+  { to: '/dashboard', icon: '⌂', label: 'Dashboard' },
+  { to: '/tournament-manager', icon: '◫', label: 'Tournament Manager' },
+  { to: '/team-workspace', icon: '◇', label: 'Team Workspace' },
+  { to: '/organizer-analytics', icon: '⌁', label: 'Advanced Analytics' },
+  { to: '/branding', icon: '✦', label: 'Branding' },
+  { to: '/monetization', icon: '$', label: 'Monetization' },
+  { to: '/billing', icon: '▤', label: 'Billing' },
+  { to: '/account-integrations', icon: '⚙', label: 'Account & Integrations' },
+  { to: '/help', icon: '?', label: 'Help' },
+];
+
 const adminLinks = [
   { to: '/admin', icon: '⌂', label: 'Admin Dashboard' },
   { to: '/admin/users', icon: '◉', label: 'Users & Roles' },
@@ -29,7 +42,12 @@ interface WorkspaceLayoutProps {
 function WorkspaceLayout({ mode = 'workspace' }: WorkspaceLayoutProps) {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
-  const links = mode === 'admin' ? adminLinks : workspaceLinks;
+  const links =
+    mode === 'admin'
+      ? adminLinks
+      : user?.role === 'PLAYER'
+        ? playerLinks
+        : workspaceLinks;
 
   const handleLogout = () => {
     logout();
