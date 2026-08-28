@@ -1,104 +1,51 @@
-import {
-  useState,
-  type FormEvent,
-} from 'react';
-
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../auth/AuthContext';
+import styles from './AuthPages.module.css';
 
 function RegistrationPage() {
-  const [
-    username,
-    setUsername,
-  ] = useState('');
-
-  const [
-    email,
-    setEmail,
-  ] = useState('');
-
-  const [
-    password,
-    setPassword,
-  ] = useState('');
-
-  const [
-    confirmPassword,
-    setConfirmPassword,
-  ] = useState('');
-
-  const [
-    showPassword,
-    setShowPassword,
-  ] = useState(false);
-
-  const [
-    showConfirmPassword,
-    setShowConfirmPassword,
-  ] = useState(false);
-
-  const [
-    error,
-    setError,
-  ] = useState('');
-
-  const [
-    isSubmitting,
-    setIsSubmitting,
-  ] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register } = useAuth();
-
   const navigate = useNavigate();
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>,
-  ) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     setError('');
 
-    if (
-      password !== confirmPassword
-    ) {
-      setError(
-        'Passwords do not match.',
-      );
-
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const session =
-        await register({
-          username,
-          email,
-          password,
-        });
+      const session = await register({
+        username,
+        email,
+        password,
+      });
 
       const destination =
         session.user.role === 'ADMIN'
           ? '/admin'
           : '/dashboard';
 
-      navigate(
-        destination,
-        {
-          replace: true,
-        },
-      );
-    } catch (
-      registrationError
-    ) {
+      navigate(destination, {
+        replace: true,
+      });
+    } catch (registrationError) {
       setError(
-        registrationError instanceof
-          Error
+        registrationError instanceof Error
           ? registrationError.message
           : 'Unable to create account.',
       );
@@ -107,418 +54,198 @@ function RegistrationPage() {
     }
   };
 
-  const inputStyle = {
-    backgroundColor: '#16161A',
-
-    border:
-      '1px solid #27272A',
-
-    color: 'white',
-
-    padding: '12px',
-
-    borderRadius: '6px',
-
-    width: '100%',
-
-    boxSizing:
-      'border-box' as const,
-
-    outline: 'none',
-  };
-
   return (
-    <div
-      style={{
-        display: 'flex',
+    <section className={styles.page}>
+      <div className={styles.card}>
+        <span className={styles.badge}>
+          <span
+            className={styles.badgeDot}
+            aria-hidden="true"
+          />
+          Join the competition
+        </span>
 
-        justifyContent:
-          'center',
+        <h1 className={styles.title}>
+          Create your{' '}
+          <span className={styles.gradientText}>
+            account.
+          </span>
+        </h1>
 
-        alignItems: 'center',
-
-        minHeight:
-          'calc(100vh - 70px)',
-
-        padding: '20px',
-      }}
-    >
-      <div
-        style={{
-          backgroundColor:
-            '#111115',
-
-          padding: '40px',
-
-          borderRadius:
-            '12px',
-
-          border:
-            '1px solid #27272A',
-
-          width: '100%',
-
-          maxWidth: '400px',
-
-          textAlign: 'center',
-        }}
-      >
-        <h2
-          style={{
-            fontSize:
-              '1.75rem',
-
-            fontWeight:
-              'bold',
-
-            margin:
-              '0 0 8px 0',
-
-            color: 'white',
-          }}
-        >
-          Create an Account
-        </h2>
-
-        <p
-          style={{
-            color: '#A1A1AA',
-
-            fontSize:
-              '0.9rem',
-
-            margin:
-              '0 0 24px 0',
-          }}
-        >
-          Enter your details
-          to register
+        <p className={styles.subtitle}>
+          Enter your details to create your account and
+          access the esports platform.
         </p>
 
         <form
-          onSubmit={
-            handleSubmit
-          }
-          style={{
-            display: 'flex',
-
-            flexDirection:
-              'column',
-
-            gap: '16px',
-
-            textAlign: 'left',
-          }}
+          className={styles.form}
+          onSubmit={handleSubmit}
         >
-          <input
-            type="text"
-            placeholder="Username"
-            aria-label="Username"
-            value={username}
-            onChange={(
-              event,
-            ) =>
-              setUsername(
-                event.target
-                  .value,
-              )
-            }
-            minLength={3}
-            maxLength={50}
-            required
-            style={
-              inputStyle
-            }
-          />
-
-          <input
-            type="email"
-            placeholder="Email"
-            aria-label="Email"
-            value={email}
-            onChange={(
-              event,
-            ) =>
-              setEmail(
-                event.target
-                  .value,
-              )
-            }
-            maxLength={100}
-            required
-            style={
-              inputStyle
-            }
-          />
-
-          <div>
+          <div className={styles.field}>
             <label
-              style={{
-                display:
-                  'block',
+              className={styles.label}
+              htmlFor="register-username"
+            >
+              Username
+            </label>
 
-                color:
-                  'white',
+            <input
+              id="register-username"
+              className={styles.input}
+              type="text"
+              placeholder="Choose a username"
+              value={username}
+              onChange={(event) =>
+                setUsername(event.target.value)
+              }
+              minLength={3}
+              maxLength={50}
+              required
+            />
+          </div>
 
-                fontSize:
-                  '0.85rem',
+          <div className={styles.field}>
+            <label
+              className={styles.label}
+              htmlFor="register-email"
+            >
+              Email
+            </label>
 
-                marginBottom:
-                  '8px',
+            <input
+              id="register-email"
+              className={styles.input}
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(event) =>
+                setEmail(event.target.value)
+              }
+              maxLength={100}
+              required
+            />
+          </div>
 
-                fontWeight:
-                  'bold',
-              }}
+          <div className={styles.field}>
+            <label
+              className={styles.label}
+              htmlFor="register-date-of-birth"
             >
               Date of birth
             </label>
 
             <input
+              id="register-date-of-birth"
+              className={styles.input}
               type="date"
-              style={{
-                ...inputStyle,
-
-                color:
-                  '#A1A1AA',
-
-                colorScheme:
-                  'dark',
-              }}
             />
           </div>
 
-          <div
-            style={{
-              display:
-                'flex',
-
-              alignItems:
-                'center',
-
-              backgroundColor:
-                '#16161A',
-
-              border:
-                '1px solid #27272A',
-
-              borderRadius:
-                '6px',
-
-              paddingRight:
-                '12px',
-            }}
-          >
-            <input
-              type={
-                showPassword
-                  ? 'text'
-                  : 'password'
-              }
-              placeholder="Password"
-              aria-label="Password"
-              value={password}
-              onChange={(
-                event,
-              ) =>
-                setPassword(
-                  event.target
-                    .value,
-                )
-              }
-              minLength={8}
-              maxLength={128}
-              required
-              style={{
-                flex: 1,
-
-                backgroundColor:
-                  'transparent',
-
-                border: 'none',
-
-                color: 'white',
-
-                padding: '12px',
-
-                outline: 'none',
-              }}
-            />
-
-            <button
-              type="button"
-              onClick={() =>
-                setShowPassword(
-                  (previous) =>
-                    !previous,
-                )
-              }
-              style={{
-                background:
-                  'none',
-
-                border: 'none',
-
-                color:
-                  '#A1A1AA',
-
-                cursor:
-                  'pointer',
-
-                fontSize:
-                  '0.8rem',
-              }}
+          <div className={styles.field}>
+            <label
+              className={styles.label}
+              htmlFor="register-password"
             >
-              {showPassword
-                ? 'Hide'
-                : 'Show'}
-            </button>
+              Password
+            </label>
+
+            <div className={styles.inputShell}>
+              <input
+                id="register-password"
+                className={styles.input}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Create a password"
+                value={password}
+                onChange={(event) =>
+                  setPassword(event.target.value)
+                }
+                minLength={8}
+                maxLength={128}
+                required
+              />
+
+              <button
+                className={styles.passwordToggle}
+                type="button"
+                onClick={() =>
+                  setShowPassword(
+                    (previous) => !previous,
+                  )
+                }
+                aria-label={
+                  showPassword
+                    ? 'Hide password'
+                    : 'Show password'
+                }
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </div>
 
-          <div
-            style={{
-              display:
-                'flex',
-
-              alignItems:
-                'center',
-
-              backgroundColor:
-                '#16161A',
-
-              border:
-                '1px solid #27272A',
-
-              borderRadius:
-                '6px',
-
-              paddingRight:
-                '12px',
-            }}
-          >
-            <input
-              type={
-                showConfirmPassword
-                  ? 'text'
-                  : 'password'
-              }
-              placeholder="Confirm Password"
-              aria-label="Confirm Password"
-              value={
-                confirmPassword
-              }
-              onChange={(
-                event,
-              ) =>
-                setConfirmPassword(
-                  event.target
-                    .value,
-                )
-              }
-              minLength={8}
-              maxLength={128}
-              required
-              style={{
-                flex: 1,
-
-                backgroundColor:
-                  'transparent',
-
-                border: 'none',
-
-                color: 'white',
-
-                padding: '12px',
-
-                outline: 'none',
-              }}
-            />
-
-            <button
-              type="button"
-              onClick={() =>
-                setShowConfirmPassword(
-                  (previous) =>
-                    !previous,
-                )
-              }
-              style={{
-                background:
-                  'none',
-
-                border: 'none',
-
-                color:
-                  '#A1A1AA',
-
-                cursor:
-                  'pointer',
-
-                fontSize:
-                  '0.8rem',
-              }}
+          <div className={styles.field}>
+            <label
+              className={styles.label}
+              htmlFor="register-confirm-password"
             >
-              {showConfirmPassword
-                ? 'Hide'
-                : 'Show'}
-            </button>
+              Confirm password
+            </label>
+
+            <div className={styles.inputShell}>
+              <input
+                id="register-confirm-password"
+                className={styles.input}
+                type={
+                  showConfirmPassword
+                    ? 'text'
+                    : 'password'
+                }
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(event) =>
+                  setConfirmPassword(
+                    event.target.value,
+                  )
+                }
+                minLength={8}
+                maxLength={128}
+                required
+              />
+
+              <button
+                className={styles.passwordToggle}
+                type="button"
+                onClick={() =>
+                  setShowConfirmPassword(
+                    (previous) => !previous,
+                  )
+                }
+                aria-label={
+                  showConfirmPassword
+                    ? 'Hide confirmation password'
+                    : 'Show confirmation password'
+                }
+              >
+                {showConfirmPassword
+                  ? 'Hide'
+                  : 'Show'}
+              </button>
+            </div>
           </div>
 
           {error && (
-            <p
-              style={{
-                color:
-                  '#F87171',
-
-                fontSize:
-                  '0.85rem',
-
-                margin: 0,
-              }}
+            <div
+              className={styles.error}
               role="alert"
             >
               {error}
-            </p>
+            </div>
           )}
 
           <button
+            className={styles.primaryButton}
             type="submit"
-            disabled={
-              isSubmitting
-            }
-            style={{
-              marginTop:
-                '8px',
-
-              padding:
-                '12px',
-
-              borderRadius:
-                '6px',
-
-              backgroundColor:
-                'white',
-
-              color:
-                'black',
-
-              fontWeight:
-                'bold',
-
-              border: 'none',
-
-              cursor:
-                isSubmitting
-                  ? 'not-allowed'
-                  : 'pointer',
-
-              opacity:
-                isSubmitting
-                  ? 0.7
-                  : 1,
-
-              width:
-                '100%',
-            }}
+            disabled={isSubmitting}
           >
             {isSubmitting
               ? 'Creating account...'
@@ -526,39 +253,17 @@ function RegistrationPage() {
           </button>
         </form>
 
-        <p
-          style={{
-            color:
-              '#A1A1AA',
-
-            fontSize:
-              '0.85rem',
-
-            marginTop:
-              '24px',
-          }}
-        >
-          Already have an
-          account?{' '}
-
+        <p className={styles.footerText}>
+          Already have an account?
           <Link
+            className={styles.textLink}
             to="/login"
-            style={{
-              color:
-                'white',
-
-              textDecoration:
-                'none',
-
-              fontWeight:
-                'bold',
-            }}
           >
             Sign In
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 }
 
