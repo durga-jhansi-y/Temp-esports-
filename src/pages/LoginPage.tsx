@@ -23,7 +23,12 @@ function LoginPage() {
 
     try {
       const session = await login({ email, password });
-      const defaultDestination = session.user.role === 'ADMIN' ? '/admin' : '/dashboard';
+      const defaultDestination =
+        session.user.role === 'ADMIN'
+          ? '/admin'
+          : session.user.role === 'PLAYER'
+            ? '/player-dashboard'
+            : '/dashboard';
       navigate(requestedPath ?? defaultDestination, { replace: true });
     } catch (loginError) {
       setError(loginError instanceof Error ? loginError.message : 'Unable to sign in.');
@@ -43,7 +48,7 @@ function LoginPage() {
         <h1 className={styles.title}>
           Welcome <span className={styles.gradientText}>back.</span>
         </h1>
-        <p className={styles.subtitle}>Enter your credentials to access your organizer workspace.</p>
+        <p className={styles.subtitle}>Enter your credentials to access your esports workspace.</p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
