@@ -5,7 +5,6 @@ import {
   GradientText,
   Metric,
   PageHeader,
-  Progress,
   Status,
   workspaceStyles as s,
 } from '../../components/workspace/WorkspaceUI';
