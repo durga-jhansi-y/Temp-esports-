@@ -26,6 +26,8 @@ import TeamsPage from './pages/TeamsPage';
 import RankingsPage from './pages/RankingsPage';
 
 // Login-required workspace pages
+import PlayerDashboardPage from './pages/player/PlayerDashboardPage';
+import PlayerProfilePage from './pages/player/PlayerProfilePage';
 import OrganizerDashboardPage from './pages/workspace/OrganizerDashboardPage';
 import TournamentManagerPage from './pages/workspace/TournamentManagerPage';
 import TeamWorkspacePage from './pages/workspace/TeamWorkspacePage';
@@ -70,6 +72,8 @@ function App() {
             {/* Login-required workspace */}
             <Route element={<ProtectedRoute />}>
               <Route element={<WorkspaceLayout />}>
+                <Route path="/player-dashboard" element={<PlayerDashboardPage />} />
+                <Route path="/players/:id" element={<PlayerProfilePage />} />
                 <Route path="/dashboard" element={<OrganizerDashboardPage />} />
                 <Route path="/tournament-manager" element={<TournamentManagerPage />} />
                 <Route path="/team-workspace" element={<TeamWorkspacePage />} />
