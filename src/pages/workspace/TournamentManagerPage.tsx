@@ -34,31 +34,6 @@ const emptyForm = {
   status: 'UPCOMING' as TournamentStatus,
 };
 
-const mockLeagues: League[] = [
-  {
-    id: 1,
-    name: 'Capital Esports League',
-    description: 'Mock league used for tournament testing.',
-    game: 'Valorant',
-    region: 'North America',
-    startDate: '2026-08-01',
-    endDate: '2026-12-15',
-    status: 'ACTIVE',
-    tournamentCount: 1,
-  },
-  {
-    id: 2,
-    name: 'Campus Championship Series',
-    description: 'Mock collegiate league.',
-    game: 'Rocket League',
-    region: 'East Coast',
-    startDate: '2026-09-01',
-    endDate: '2026-11-30',
-    status: 'ACTIVE',
-    tournamentCount: 1,
-  },
-];
-
 function TournamentManagerPage() {
   const navigate = useNavigate();
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
@@ -76,7 +51,7 @@ function TournamentManagerPage() {
       setError('');
       const [tournamentResult, leagueResult] = await Promise.all([
         getTournaments(),
-        dataMode === 'mock' ? Promise.resolve(mockLeagues) : getLeagues(),
+        getLeagues(),
       ]);
       setTournaments(tournamentResult);
       setLeagues(leagueResult);
@@ -183,7 +158,7 @@ function TournamentManagerPage() {
       />
 
       <div className={s.gridFour}>
-        <Metric label="Total" value={String(tournaments.length)} note={dataMode === 'api' ? 'Backend API' : 'Mock data'} />
+        <Metric label="Total" value={String(tournaments.length)} note={dataMode === 'backend' ? 'Backend API' : 'Backend + sample data'} />
         <Metric label="Active" value={String(activeCount)} note="Currently running" />
         <Metric label="Upcoming" value={String(upcomingCount)} note="Scheduled next" />
         <Metric label="Completed" value={String(completedCount)} note="Finished events" />
@@ -195,17 +170,17 @@ function TournamentManagerPage() {
             <div className={s.kpiRow}>
               <div>
                 <h2>{editingId ? 'Edit tournament' : 'Create tournament'}</h2>
-                <p className={s.muted}>API mode requires authentication for POST and PUT requests.</p>
+                <p className={s.muted}>All writes use the backend and require authentication for POST and PUT requests.</p>
               </div>
-              <Status tone={dataMode === 'mock' ? 'warning' : 'live'}>{dataMode === 'mock' ? 'Mock mode' : 'API mode'}</Status>
+              <Status tone={dataMode === 'backend-sample' ? 'warning' : 'live'}>{dataMode === 'backend-sample' ? 'Sample data included' : 'Backend-only mode'}</Status>
             </div>
 
             <form className={s.formGrid} style={{ marginTop: 16 }} onSubmit={handleSubmit}>
               <div className={s.field}>
                 <label htmlFor="tournament-data-mode">Data source</label>
                 <select id="tournament-data-mode" value={dataMode} onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}>
-                  <option value="api">API data</option>
-                  <option value="mock">Mock data</option>
+                  <option value="backend">Backend data only</option>
+                  <option value="backend-sample">Backend + sample data</option>
                 </select>
               </div>
 

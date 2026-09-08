@@ -127,7 +127,7 @@ function TeamWorkspacePage() {
       />
 
       <div className={s.gridThree}>
-        <Metric label="Teams loaded" value={String(teams.length)} note={dataMode === 'api' ? 'Backend API' : 'Mock testing data'} />
+        <Metric label="Teams loaded" value={String(teams.length)} note={dataMode === 'backend' ? 'Backend API' : 'Backend + seeded sample data'} />
         <Metric label="Active teams" value={String(activeCount)} note={`${teams.length - activeCount} inactive`} />
         <Metric label="Games represented" value={String(gameCount)} note="Current team list" />
       </div>
@@ -138,17 +138,17 @@ function TeamWorkspacePage() {
             <div className={s.kpiRow}>
               <div>
                 <h2>{editingId ? 'Edit team' : 'Create team'}</h2>
-                <p className={s.muted}>Writes require a valid login when API mode is enabled.</p>
+                <p className={s.muted}>All writes use the backend and require a valid login.</p>
               </div>
-              <Status tone={dataMode === 'mock' ? 'warning' : 'live'}>{dataMode === 'mock' ? 'Mock mode' : 'API mode'}</Status>
+              <Status tone={dataMode === 'backend-sample' ? 'warning' : 'live'}>{dataMode === 'backend-sample' ? 'Sample data included' : 'Backend-only mode'}</Status>
             </div>
 
             <form className={s.formGrid} style={{ marginTop: 16 }} onSubmit={handleSubmit}>
               <div className={s.field}>
                 <label htmlFor="team-data-mode">Data source</label>
                 <select id="team-data-mode" value={dataMode} onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}>
-                  <option value="api">API data</option>
-                  <option value="mock">Mock data</option>
+                  <option value="backend">Backend data only</option>
+                  <option value="backend-sample">Backend + sample data</option>
                 </select>
               </div>
 
