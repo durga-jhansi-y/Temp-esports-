@@ -148,8 +148,8 @@ export default function TournamentDetailPage() {
               value={dataMode}
               onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}
             >
-              <option value="api">API data</option>
-              <option value="mock">Mock data</option>
+              <option value="backend">Backend data only</option>
+              <option value="backend-sample">Backend + sample data</option>
             </select>
             <Link className={styles.buttonOutline} to="/tournaments">Back to tournaments</Link>
           </div>
@@ -273,7 +273,7 @@ export default function TournamentDetailPage() {
       </main>
 
       <footer className={styles.footer}>
-        {dataMode === 'api' ? 'Real backend data • /api/tournaments + /api/matches' : 'Mock testing data • API calls disabled'}
+        {dataMode === 'backend' ? 'Backend data only • /api/tournaments + /api/matches' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );

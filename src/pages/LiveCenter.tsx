@@ -119,8 +119,8 @@ export default function LiveCenter() {
               value={dataMode}
               onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}
             >
-              <option value="api">API data</option>
-              <option value="mock">Mock data</option>
+              <option value="backend">Backend data only</option>
+              <option value="backend-sample">Backend + sample data</option>
             </select>
           </div>
         </header>
@@ -169,7 +169,7 @@ export default function LiveCenter() {
         ) : !error ? (
           <div className={styles.emptyState} role="status">
             {matches.length === 0
-              ? `No matches are available in ${dataMode === 'api' ? 'the backend' : 'mock data'}.`
+              ? `No matches are available in ${dataMode === 'backend' ? 'the backend' : 'backend sample data'}.`
               : `No matches match “${query}”.`}
           </div>
         ) : null}
@@ -195,7 +195,7 @@ export default function LiveCenter() {
       </div>
 
       <footer className={styles.footer}>
-        {dataMode === 'api' ? 'Real backend data • /api/matches' : 'Mock testing data • API calls disabled'}
+        {dataMode === 'backend' ? 'Backend data only • /api/matches' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );

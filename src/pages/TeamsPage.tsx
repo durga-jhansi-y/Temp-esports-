@@ -76,8 +76,8 @@ export default function TeamsPage() {
             </h1>
 
             <p className={styles.description}>
-              Browse team information from the Spring Boot API. Switch to mock
-              mode when you want frontend-only testing data.
+              Browse team information from the Spring Boot API. The sample-data
+              option still uses the backend; it only includes persisted seeded records.
             </p>
           </div>
 
@@ -94,8 +94,8 @@ export default function TeamsPage() {
               value={dataMode}
               onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}
             >
-              <option value="api">API data</option>
-              <option value="mock">Mock data</option>
+              <option value="backend">Backend data only</option>
+              <option value="backend-sample">Backend + sample data</option>
             </select>
           </div>
         </header>
@@ -148,14 +148,14 @@ export default function TeamsPage() {
         ) : !error ? (
           <div className={styles.emptyState}>
             {teams.length === 0
-              ? `No teams are available in ${dataMode === 'api' ? 'the backend' : 'mock data'}.`
+              ? `No teams are available in ${dataMode === 'backend' ? 'the backend' : 'backend sample data'}.`
               : `No teams match “${search}”.`}
           </div>
         ) : null}
       </main>
 
       <footer className={styles.footer}>
-        {dataMode === 'api' ? 'Real backend data • /api/teams' : 'Mock testing data • API calls disabled'}
+        {dataMode === 'backend' ? 'Backend data only • /api/teams' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );

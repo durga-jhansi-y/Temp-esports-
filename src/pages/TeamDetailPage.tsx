@@ -119,8 +119,8 @@ export default function TeamDetailPage() {
               value={dataMode}
               onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}
             >
-              <option value="api">API data</option>
-              <option value="mock">Mock data</option>
+              <option value="backend">Backend data only</option>
+              <option value="backend-sample">Backend + sample data</option>
             </select>
             <Link className={styles.buttonOutline} to="/teams">Back to teams</Link>
           </div>
@@ -178,7 +178,7 @@ export default function TeamDetailPage() {
       </main>
 
       <footer className={styles.footer}>
-        {dataMode === 'api' ? 'Real backend data' : 'Mock testing data'}
+        {dataMode === 'backend' ? 'Backend data only' : 'Backend + seeded sample data'}
       </footer>
     </div>
   );

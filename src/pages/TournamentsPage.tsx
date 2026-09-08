@@ -119,8 +119,8 @@ export default function TournamentsPage() {
             value={dataMode}
             onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}
           >
-            <option value="api">API data</option>
-            <option value="mock">Mock data</option>
+            <option value="backend">Backend data only</option>
+            <option value="backend-sample">Backend + sample data</option>
           </select>
         </div>
 
@@ -169,7 +169,7 @@ export default function TournamentsPage() {
           ) : !error ? (
             <div className={styles.emptyState}>
               {tournaments.length === 0
-                ? `No tournaments are available in ${dataMode === 'api' ? 'the backend' : 'mock data'}.`
+                ? `No tournaments are available in ${dataMode === 'backend' ? 'the backend' : 'backend sample data'}.`
                 : 'No tournaments match your current search and filter.'}
             </div>
           ) : null}
@@ -177,7 +177,7 @@ export default function TournamentsPage() {
       </main>
 
       <footer className={styles.footer}>
-        {dataMode === 'api' ? 'Real backend data • /api/tournaments' : 'Mock testing data • API calls disabled'}
+        {dataMode === 'backend' ? 'Backend data only • /api/tournaments' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );
