@@ -1,102 +1,83 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import {
+  getEsportsDataMode,
+  setEsportsDataMode,
+  type EsportsDataMode,
+} from '../services/dataMode';
+import { getMatches, type Match, type MatchStatus } from '../services/matchService';
 import styles from './LiveCenter.module.css';
 
-type LiveMatch = {
-  id: number;
-  game: string;
-  event: string;
-  leftTeam: string;
-  leftInitial: string;
-  rightTeam: string;
-  rightInitial: string;
-  score: string;
-  detail: string;
-};
-
-const liveMatches: LiveMatch[] = [
-  {
-    id: 1,
-    game: 'Valorant',
-    event: 'Capital Clash',
-    leftTeam: 'Nova',
-    leftInitial: 'N',
-    rightTeam: 'Apex',
-    rightInitial: 'A',
-    score: '2 : 1',
-    detail: 'Map 3 • 11:42',
-  },
-  {
-    id: 2,
-    game: 'Rocket League',
-    event: 'Campus Series',
-    leftTeam: 'Orion',
-    leftInitial: 'O',
-    rightTeam: 'Riptide',
-    rightInitial: 'R',
-    score: '1 : 1',
-    detail: 'Game 4 • OT',
-  },
-  {
-    id: 3,
-    game: 'CS2',
-    event: 'Community Cup',
-    leftTeam: 'Vanta',
-    leftInitial: 'V',
-    rightTeam: 'Eclipse',
-    rightInitial: 'E',
-    score: '9 : 7',
-    detail: 'Map 2 • Round 17',
-  },
-  {
-    id: 4,
-    game: 'Overwatch 2',
-    event: 'Open Scrim League',
-    leftTeam: 'Falcon',
-    leftInitial: 'F',
-    rightTeam: 'Arcadia',
-    rightInitial: 'A',
-    score: '2 : 0',
-    detail: 'Map 3 • 06:14',
-  },
-];
-
-const metrics = [
-  { label: 'Matches live', value: '7', note: 'Across 4 games' },
-  { label: 'Current viewers', value: '11.8K', note: 'Published streams' },
-  { label: 'Avg map margin', value: '3.4', note: 'Competitive balance' },
-  { label: 'Upsets today', value: '5', note: 'Seed differential ≥ 6' },
-];
+function formatDateTime(value: string) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+}
 
 export default function LiveCenter() {
   const [query, setQuery] = useState('');
-  const [followedMatches, setFollowedMatches] = useState<number[]>([]);
+  const [statusFilter, setStatusFilter] = useState<'ALL' | MatchStatus>('ALL');
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [dataMode, setDataModeState] = useState<EsportsDataMode>(getEsportsDataMode);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        setIsLoading(true);
+        setError('');
+        const result = await getMatches();
+        if (!cancelled) {
+          setMatches(result);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setMatches([]);
+          setError(err instanceof Error ? err.message : 'Failed to load matches.');
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [dataMode]);
 
   const filteredMatches = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    if (!normalizedQuery) {
-      return liveMatches;
-    }
+    return matches.filter((match) => {
+      const matchesStatus = statusFilter === 'ALL' || match.status === statusFilter;
+      const searchable = [
+        match.homeTeamName,
+        match.awayTeamName,
+        match.tournamentName ?? '',
+        match.venue ?? '',
+        match.status,
+      ].join(' ').toLowerCase();
 
-    return liveMatches.filter((match) =>
-      [
-        match.game,
-        match.event,
-        match.leftTeam,
-        match.rightTeam,
-        match.score,
-        match.detail,
-      ].some((value) => value.toLowerCase().includes(normalizedQuery)),
-    );
-  }, [query]);
+      return matchesStatus && (!normalizedQuery || searchable.includes(normalizedQuery));
+    });
+  }, [matches, query, statusFilter]);
 
-  const toggleFollow = (matchId: number) => {
-    setFollowedMatches((current) =>
-      current.includes(matchId)
-        ? current.filter((id) => id !== matchId)
-        : [...current, matchId],
-    );
+  const metrics = useMemo(() => [
+    { label: 'Matches loaded', value: String(matches.length), note: 'Current data source' },
+    { label: 'Live now', value: String(matches.filter((match) => match.status === 'IN_PROGRESS').length), note: 'IN_PROGRESS' },
+    { label: 'Scheduled', value: String(matches.filter((match) => match.status === 'SCHEDULED').length), note: 'Upcoming matches' },
+    { label: 'Completed', value: String(matches.filter((match) => match.status === 'COMPLETED').length), note: 'Finished matches' },
+  ], [matches]);
+
+  const changeDataMode = (mode: EsportsDataMode) => {
+    setEsportsDataMode(mode);
+    setDataModeState(mode);
   };
 
   return (
@@ -109,82 +90,95 @@ export default function LiveCenter() {
               Live <span className={styles.gradientText}>match center.</span>
             </h1>
             <p className={styles.description}>
-              A spectator-focused view for real-time scores, game state,
-              streams, and event context.
+              Browse live, scheduled, and completed matches from /api/matches.
             </p>
           </div>
 
-          <label className={styles.searchBar}>
+          <div className={styles.searchBar}>
             <Search className={styles.searchIcon} size={17} aria-hidden="true" />
             <input
               type="search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search live matches"
-              aria-label="Search live matches"
+              placeholder="Search teams, tournament, or venue"
+              aria-label="Search matches"
             />
-          </label>
+            <select
+              aria-label="Filter matches by status"
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value as 'ALL' | MatchStatus)}
+            >
+              <option value="ALL">All statuses</option>
+              <option value="IN_PROGRESS">Live</option>
+              <option value="SCHEDULED">Scheduled</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+            <select
+              aria-label="Match data source"
+              value={dataMode}
+              onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}
+            >
+              <option value="api">API data</option>
+              <option value="mock">Mock data</option>
+            </select>
+          </div>
         </header>
 
-        <section className={styles.liveGrid} aria-label="Live matches">
-          {filteredMatches.map((match) => {
-            const isFollowing = followedMatches.includes(match.id);
+        {error && <div className={styles.emptyState}>{error}</div>}
 
-            return (
+        {isLoading ? (
+          <div className={styles.emptyState}>Loading matches...</div>
+        ) : filteredMatches.length > 0 ? (
+          <section className={styles.liveGrid} aria-label="Matches">
+            {filteredMatches.map((match) => (
               <article key={match.id} className={`${styles.card} ${styles.accentCard}`}>
                 <div className={styles.cardTopRow}>
-                  <span className={styles.liveStatus}>
-                    <span className={`${styles.dot} ${styles.livePulse}`} />
-                    Live
+                  <span className={match.status === 'IN_PROGRESS' ? styles.liveStatus : styles.tag}>
+                    {match.status === 'IN_PROGRESS' && <span className={`${styles.dot} ${styles.livePulse}`} />}
+                    {match.status.replace('_', ' ')}
                   </span>
-                  <span className={styles.tag}>{match.game}</span>
+                  <span className={styles.tag}>{match.tournamentName || 'Independent'}</span>
                 </div>
 
-                <p className={styles.eventName}>{match.event}</p>
+                <p className={styles.eventName}>{formatDateTime(match.scheduledAt)}</p>
 
                 <div className={styles.matchRow}>
                   <div className={styles.teamLine}>
-                    <span className={styles.teamLogo}>{match.leftInitial}</span>
-                    <strong>{match.leftTeam}</strong>
+                    <span className={styles.teamLogo}>{match.homeTeamName.charAt(0).toUpperCase()}</span>
+                    <strong>{match.homeTeamName}</strong>
                   </div>
 
-                  <span className={styles.score}>{match.score}</span>
+                  <span className={styles.score}>
+                    {match.status === 'SCHEDULED' ? 'VS' : `${match.homeScore} : ${match.awayScore}`}
+                  </span>
 
                   <div className={`${styles.teamLine} ${styles.teamLineRight}`}>
-                    <strong>{match.rightTeam}</strong>
-                    <span className={styles.teamLogo}>{match.rightInitial}</span>
+                    <strong>{match.awayTeamName}</strong>
+                    <span className={styles.teamLogo}>{match.awayTeamName.charAt(0).toUpperCase()}</span>
                   </div>
                 </div>
 
                 <div className={styles.cardBottomRow}>
-                  <span className={styles.matchDetail}>{match.detail}</span>
-                  <button
-                    type="button"
-                    className={`${styles.followButton} ${
-                      isFollowing ? styles.following : ''
-                    }`}
-                    onClick={() => toggleFollow(match.id)}
-                    aria-pressed={isFollowing}
-                  >
-                    {isFollowing ? 'Following' : 'Follow'}
-                  </button>
+                  <span className={styles.matchDetail}>{match.venue || 'Venue TBD'}</span>
+                  <Link className={styles.followButton} to={`/matches/${match.id}`}>View details</Link>
                 </div>
               </article>
-            );
-          })}
-        </section>
-
-        {filteredMatches.length === 0 && (
+            ))}
+          </section>
+        ) : !error ? (
           <div className={styles.emptyState} role="status">
-            No live matches match “{query}”.
+            {matches.length === 0
+              ? `No matches are available in ${dataMode === 'api' ? 'the backend' : 'mock data'}.`
+              : `No matches match “${query}”.`}
           </div>
-        )}
+        ) : null}
 
         <section className={styles.analyticsSection}>
           <div className={styles.sectionHead}>
             <div>
               <span className={styles.subtitle}>Public analytics</span>
-              <h2>Live competition pulse</h2>
+              <h2>Competition pulse</h2>
             </div>
           </div>
 
@@ -201,7 +195,7 @@ export default function LiveCenter() {
       </div>
 
       <footer className={styles.footer}>
-        Interactive frontend mock-up • Simulated esports and analytics data
+        {dataMode === 'api' ? 'Real backend data • /api/matches' : 'Mock testing data • API calls disabled'}
       </footer>
     </div>
   );
