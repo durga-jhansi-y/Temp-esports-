@@ -29,13 +29,16 @@ public class TournamentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TournamentResponse>> getAllTournaments() {
-        return ResponseEntity.ok(tournamentService.getAllTournaments());
+    public ResponseEntity<List<TournamentResponse>> getAllTournaments(
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
+        return ResponseEntity.ok(tournamentService.getAllTournaments(includeDemo));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TournamentResponse> getTournamentById(@PathVariable Long id) {
-        return ResponseEntity.ok(tournamentService.getTournamentById(id));
+    public ResponseEntity<TournamentResponse> getTournamentById(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
+        return ResponseEntity.ok(tournamentService.getTournamentById(id, includeDemo));
     }
 
     @PutMapping("/{id}")

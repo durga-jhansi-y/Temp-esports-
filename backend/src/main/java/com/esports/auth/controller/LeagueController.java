@@ -30,13 +30,16 @@ public class LeagueController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LeagueResponse>> getAllLeagues() {
-        return ResponseEntity.ok(leagueService.getAllLeagues());
+    public ResponseEntity<List<LeagueResponse>> getAllLeagues(
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
+        return ResponseEntity.ok(leagueService.getAllLeagues(includeDemo));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LeagueResponse> getLeagueById(@PathVariable Long id) {
-        return ResponseEntity.ok(leagueService.getLeagueById(id));
+    public ResponseEntity<LeagueResponse> getLeagueById(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
+        return ResponseEntity.ok(leagueService.getLeagueById(id, includeDemo));
     }
 
     @PutMapping("/{id}")
@@ -54,7 +57,8 @@ public class LeagueController {
 
     @GetMapping("/{id}/tournaments")
     public ResponseEntity<List<TournamentResponse>> getTournamentsByLeagueId(
-            @PathVariable Long id) {
-        return ResponseEntity.ok(leagueService.getTournamentsByLeagueId(id));
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
+        return ResponseEntity.ok(leagueService.getTournamentsByLeagueId(id, includeDemo));
     }
 }

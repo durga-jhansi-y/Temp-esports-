@@ -37,16 +37,19 @@ public class TeamController {
 
     @GetMapping
     @Operation(summary = "Get all teams")
-    public ResponseEntity<ApiResponse<List<TeamResponse>>> getAllTeams() {
+    public ResponseEntity<ApiResponse<List<TeamResponse>>> getAllTeams(
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
         return ResponseEntity.ok(ApiResponse.success(
-                "Teams retrieved successfully", teamService.getAllTeams()));
+                "Teams retrieved successfully", teamService.getAllTeams(includeDemo)));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a team by ID")
-    public ResponseEntity<ApiResponse<TeamResponse>> getTeamById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<TeamResponse>> getTeamById(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
         return ResponseEntity.ok(ApiResponse.success(
-                "Team retrieved successfully", teamService.getTeamById(id)));
+                "Team retrieved successfully", teamService.getTeamById(id, includeDemo)));
     }
 
     @PutMapping("/{id}")
@@ -65,4 +68,3 @@ public class TeamController {
         return ResponseEntity.ok(ApiResponse.success("Team deleted successfully"));
     }
 }
-
