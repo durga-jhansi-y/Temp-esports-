@@ -1,20 +1,20 @@
-export type EsportsDataMode = 'api' | 'mock';
+export type EsportsDataMode = 'backend' | 'backend-sample';
 
 const STORAGE_KEY = 'esports-data-mode';
-
-function getDefaultMode(): EsportsDataMode {
-  return import.meta.env.VITE_USE_MOCK_ESPORTS_DATA === 'true' ? 'mock' : 'api';
-}
+const DEFAULT_MODE: EsportsDataMode = 'backend-sample';
 
 export function getEsportsDataMode(): EsportsDataMode {
   if (typeof window === 'undefined') {
-    return getDefaultMode();
+    return DEFAULT_MODE;
   }
 
   const storedMode = window.localStorage.getItem(STORAGE_KEY);
-  return storedMode === 'api' || storedMode === 'mock'
+  if (storedMode === 'api') return 'backend';
+  if (storedMode === 'mock') return 'backend-sample';
+
+  return storedMode === 'backend' || storedMode === 'backend-sample'
     ? storedMode
-    : getDefaultMode();
+    : DEFAULT_MODE;
 }
 
 export function setEsportsDataMode(mode: EsportsDataMode): void {
@@ -23,6 +23,11 @@ export function setEsportsDataMode(mode: EsportsDataMode): void {
   }
 }
 
-export function isMockEsportsDataEnabled(): boolean {
-  return getEsportsDataMode() === 'mock';
+export function shouldIncludeBackendSampleData(): boolean {
+  return getEsportsDataMode() === 'backend-sample';
+}
+
+export function withEsportsDataMode(path: string): string {
+  const separator = path.includes('?') ? '&' : '?';
+  return `${path}${separator}includeDemo=${shouldIncludeBackendSampleData()}`;
 }
