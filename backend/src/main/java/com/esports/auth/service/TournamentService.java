@@ -15,11 +15,6 @@ import java.util.List;
 
 /**
  * Service for Tournament CRUD operations.
- *
- * Business rules enforced here:
- *   - leagueId must reference an existing League.
- *   - endDate must not be before startDate.
- *   - When updating leagueId, the new League must exist.
  */
 @Service
 @RequiredArgsConstructor
@@ -27,14 +22,8 @@ import java.util.List;
 public class TournamentService {
 
     private final TournamentRepository tournamentRepository;
-    private final LeagueService leagueService;  // reuses findLeagueOrThrow
+    private final LeagueService leagueService;
 
-    /**
-     * Creates a new Tournament and associates it with an existing League.
-     *
-     * @throws ResourceNotFoundException if leagueId does not exist
-     * @throws IllegalStateException     if endDate is before startDate
-     */
     public TournamentResponse createTournament(CreateTournamentRequest request) {
         League league = leagueService.findLeagueOrThrow(request.getLeagueId());
 
@@ -48,46 +37,34 @@ public class TournamentService {
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .league(league)
-                .build();  // status defaults to UPCOMING via @Builder.Default
+                .build();
 
         return TournamentResponse.from(tournamentRepository.save(tournament));
     }
 
-    /**
-     * Returns all tournaments.
-     */
     @Transactional(readOnly = true)
-    public List<TournamentResponse> getAllTournaments() {
+    public List<TournamentResponse> getAllTournaments(boolean includeDemo) {
         return tournamentRepository.findAll()
                 .stream()
+                .filter(tournament -> includeDemo || !tournament.isDemoData())
                 .map(TournamentResponse::from)
                 .toList();
     }
 
-    /**
-     * Returns a single tournament by ID.
-     *
-     * @throws ResourceNotFoundException if not found
-     */
     @Transactional(readOnly = true)
-    public TournamentResponse getTournamentById(Long id) {
-        return TournamentResponse.from(findTournamentOrThrow(id));
+    public TournamentResponse getTournamentById(Long id, boolean includeDemo) {
+        Tournament tournament = findTournamentOrThrow(id);
+        if (tournament.isDemoData() && !includeDemo) {
+            throw new ResourceNotFoundException("Tournament", id);
+        }
+        return TournamentResponse.from(tournament);
     }
 
-    /**
-     * Returns all tournaments for a specific league.
-     */
     @Transactional(readOnly = true)
-    public List<TournamentResponse> getTournamentsByLeagueId(Long leagueId) {
-        return leagueService.getTournamentsByLeagueId(leagueId);
+    public List<TournamentResponse> getTournamentsByLeagueId(Long leagueId, boolean includeDemo) {
+        return leagueService.getTournamentsByLeagueId(leagueId, includeDemo);
     }
 
-    /**
-     * Updates an existing tournament. Only non-null fields are applied.
-     *
-     * @throws ResourceNotFoundException if tournament or new league is not found
-     * @throws IllegalStateException     if date range is invalid after update
-     */
     public TournamentResponse updateTournament(Long id, UpdateTournamentRequest request) {
         Tournament tournament = findTournamentOrThrow(id);
 
@@ -113,7 +90,6 @@ public class TournamentService {
             tournament.setStatus(request.getStatus());
         }
         if (request.getLeagueId() != null) {
-            // Validate that the new league exists before changing the relationship
             League newLeague = leagueService.findLeagueOrThrow(request.getLeagueId());
             tournament.setLeague(newLeague);
         }
@@ -123,17 +99,10 @@ public class TournamentService {
         return TournamentResponse.from(tournamentRepository.save(tournament));
     }
 
-    /**
-     * Deletes a tournament by ID.
-     *
-     * @throws ResourceNotFoundException if not found
-     */
     public void deleteTournament(Long id) {
         findTournamentOrThrow(id);
         tournamentRepository.deleteById(id);
     }
-
-    // ── Helpers ──────────────────────────────────────────────────────────────
 
     private Tournament findTournamentOrThrow(Long id) {
         return tournamentRepository.findById(id)
