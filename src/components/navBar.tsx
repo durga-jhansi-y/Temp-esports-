@@ -26,9 +26,9 @@ function NavBar() {
           <NavLink to="/" end className={getNavLinkClass}>Platform</NavLink>
           <NavLink to="/pricing" className={getNavLinkClass}>Pricing</NavLink>
           <NavLink to="/questions" className={getNavLinkClass}>For Players</NavLink>
-          <NavLink to="/tournament" className={getNavLinkClass}>Tournaments</NavLink>
+          <NavLink to="/tournaments" className={getNavLinkClass}>Tournaments</NavLink>
           <NavLink to="/live-center" className={getNavLinkClass}>Live Matches</NavLink>
-          <NavLink to="/team" className={getNavLinkClass}>Teams</NavLink>
+          <NavLink to="/teams" className={getNavLinkClass}>Teams</NavLink>
           <NavLink to="/rankings" className={getNavLinkClass}>Rankings</NavLink>
           <NavLink to="/trust" className={getNavLinkClass}>Trust</NavLink>
         </div>
@@ -37,6 +37,7 @@ function NavBar() {
           {isAuthenticated ? (
             <>
               <NavLink to="/dashboard" className={styles.actionLink}>My workspace</NavLink>
+              <NavLink to="/league-manager" className={`${styles.actionLink} ${styles.primaryAction}`}>League manager</NavLink>
               {isAdmin && <NavLink to="/admin" className={`${styles.actionLink} ${styles.primaryAction}`}>Admin</NavLink>}
               <button type="button" className={`${styles.actionLink} ${styles.actionButton}`} onClick={handleLogout}>Sign out</button>
             </>
@@ -44,7 +45,7 @@ function NavBar() {
             <>
               <NavLink to="/login" className={styles.actionLink}>Sign in</NavLink>
               <NavLink to="/register" className={`${styles.actionLink} ${styles.competeAction}`}>Compete</NavLink>
-              <NavLink to="/launch" className={`${styles.actionLink} ${styles.primaryAction}`}>Launch your league</NavLink>
+              <NavLink to="/launch" className={`${styles.actionLink} ${styles.primaryAction}`}>Find a league</NavLink>
             </>
           )}
         </div>
