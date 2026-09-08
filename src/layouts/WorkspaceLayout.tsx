@@ -4,6 +4,7 @@ import styles from './WorkspaceLayout.module.css';
 
 const workspaceLinks = [
   { to: '/dashboard', icon: '⌂', label: 'Dashboard' },
+  { to: '/league-manager', icon: '▣', label: 'League Manager' },
   { to: '/tournament-manager', icon: '◫', label: 'Tournament Manager' },
   { to: '/team-workspace', icon: '◇', label: 'Team Workspace' },
   { to: '/organizer-analytics', icon: '⌁', label: 'Advanced Analytics' },
@@ -16,6 +17,7 @@ const workspaceLinks = [
 
 const playerLinks = [
   { to: '/player-dashboard', icon: '◉', label: 'Player Dashboard' },
+  { to: '/league-manager', icon: '▣', label: 'League Manager' },
   { to: '/dashboard', icon: '⌂', label: 'Dashboard' },
   { to: '/tournament-manager', icon: '◫', label: 'Tournament Manager' },
   { to: '/team-workspace', icon: '◇', label: 'Team Workspace' },
