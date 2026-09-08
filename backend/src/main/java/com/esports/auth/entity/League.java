@@ -53,6 +53,11 @@ public class League {
     @Builder.Default
     private LeagueStatus status = LeagueStatus.UPCOMING;
 
+    /** True only for backend-seeded sample records. */
+    @Column(name = "demo_data", nullable = false)
+    @Builder.Default
+    private boolean demoData = false;
+
     /**
      * Tournaments belonging to this league.
      * mappedBy = "league" means Tournament.league is the owning side (holds the FK).

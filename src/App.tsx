@@ -16,18 +16,19 @@ import PricingPage from './pages/PricingPage';
 import QuestionsPage from './pages/QuestionsPage';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
-import LeagueRegistration from './pages/LeagueRegistration';
+import LeagueLookupPage from './pages/LeagueLookupPage';
 import TutorialRunCollegeTournament from './pages/TutorialRunCollegeTournament';
 import Compare from './pages/Compare';
 import TournamentsPage from './pages/TournamentsPage';
 import TournamentDetailPage from './pages/TournamentDetailPage';
 import LiveCenter from './pages/LiveCenter';
+import MatchDetailPage from './pages/MatchDetailPage';
 import TeamsPage from './pages/TeamsPage';
+import TeamDetailPage from './pages/TeamDetailPage';
 import RankingsPage from './pages/RankingsPage';
 
 // Login-required workspace pages
-import PlayerDashboardPage from './pages/player/PlayerDashboardPage';
-import PlayerProfilePage from './pages/player/PlayerProfilePage';
+import LeagueRegistration from './pages/LeagueRegistration';
 import OrganizerDashboardPage from './pages/workspace/OrganizerDashboardPage';
 import TournamentManagerPage from './pages/workspace/TournamentManagerPage';
 import TeamWorkspacePage from './pages/workspace/TeamWorkspacePage';
@@ -37,6 +38,8 @@ import MonetizationPage from './pages/workspace/MonetizationPage';
 import BillingPage from './pages/workspace/BillingPage';
 import AccountIntegrationsPage from './pages/workspace/AccountIntegrationsPage';
 import HelpPage from './pages/workspace/HelpPage';
+import PlayerDashboardPage from './pages/player/PlayerDashboardPage';
+import PlayerProfilePage from './pages/player/PlayerProfilePage';
 
 // Admin-only pages
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
@@ -51,30 +54,37 @@ function App() {
       <AuthProvider>
         <MainLayout>
           <Routes>
-            {/* Existing public routes */}
+            {/* Public routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/trust" element={<TrustPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/launch" element={<LeagueRegistration />} />
-            <Route path="/tournament" element={<TournamentsPage />} />
-            <Route path="/tournament-detail" element={<TournamentDetailPage />} />
-            <Route path="/live-center" element={<LiveCenter />} />
-            <Route path="/team" element={<TeamsPage />} />
-            <Route path="/rankings" element={<RankingsPage />} />
 
-            {/* Optional aliases that match the mock-up filenames. */}
+            {/* Public league retrieval replaces the old public creation page. */}
+            <Route path="/launch" element={<LeagueLookupPage />} />
+            <Route path="/leagues" element={<LeagueLookupPage />} />
+
+            {/* Public team, tournament, and match discovery/details. */}
+            <Route path="/tournament" element={<TournamentsPage />} />
             <Route path="/tournaments" element={<TournamentsPage />} />
+            <Route path="/tournament-detail" element={<TournamentDetailPage />} />
+            <Route path="/tournaments/:id" element={<TournamentDetailPage />} />
+            <Route path="/live-center" element={<LiveCenter />} />
+            <Route path="/matches/:id" element={<MatchDetailPage />} />
+            <Route path="/team" element={<TeamsPage />} />
             <Route path="/teams" element={<TeamsPage />} />
+            <Route path="/teams/:id" element={<TeamDetailPage />} />
+            <Route path="/rankings" element={<RankingsPage />} />
 
             {/* Login-required workspace */}
             <Route element={<ProtectedRoute />}>
               <Route element={<WorkspaceLayout />}>
-                <Route path="/player-dashboard" element={<PlayerDashboardPage />} />
-                <Route path="/players/:id" element={<PlayerProfilePage />} />
                 <Route path="/dashboard" element={<OrganizerDashboardPage />} />
+                <Route path="/player-dashboard" element={<PlayerDashboardPage />} />
+                <Route path="/player-profile" element={<PlayerProfilePage />} />
+                <Route path="/league-manager" element={<LeagueRegistration />} />
                 <Route path="/tournament-manager" element={<TournamentManagerPage />} />
                 <Route path="/team-workspace" element={<TeamWorkspacePage />} />
                 <Route path="/organizer-analytics" element={<OrganizerAnalyticsPage />} />

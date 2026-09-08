@@ -39,15 +39,20 @@ public class TeamService {
     }
 
     @Transactional(readOnly = true)
-    public List<TeamResponse> getAllTeams() {
+    public List<TeamResponse> getAllTeams(boolean includeDemo) {
         return teamRepository.findAll().stream()
+                .filter(team -> includeDemo || !team.isDemoData())
                 .map(TeamResponse::from)
                 .toList();
     }
 
     @Transactional(readOnly = true)
-    public TeamResponse getTeamById(Long id) {
-        return TeamResponse.from(findTeamOrThrow(id));
+    public TeamResponse getTeamById(Long id, boolean includeDemo) {
+        Team team = findTeamOrThrow(id);
+        if (team.isDemoData() && !includeDemo) {
+            throw new ResourceNotFoundException("Team", id);
+        }
+        return TeamResponse.from(team);
     }
 
     public TeamResponse updateTeam(Long id, UpdateTeamRequest request) {
@@ -96,4 +101,3 @@ public class TeamService {
                 .orElseThrow(() -> new ResourceNotFoundException("Team", id));
     }
 }
-

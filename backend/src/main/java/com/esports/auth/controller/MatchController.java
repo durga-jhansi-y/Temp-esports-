@@ -37,25 +37,29 @@ public class MatchController {
 
     @GetMapping
     @Operation(summary = "Get all matches")
-    public ResponseEntity<ApiResponse<List<MatchResponse>>> getAllMatches() {
+    public ResponseEntity<ApiResponse<List<MatchResponse>>> getAllMatches(
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
         return ResponseEntity.ok(ApiResponse.success(
-                "Matches retrieved successfully", matchService.getAllMatches()));
+                "Matches retrieved successfully", matchService.getAllMatches(includeDemo)));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a match by ID")
-    public ResponseEntity<ApiResponse<MatchResponse>> getMatchById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<MatchResponse>> getMatchById(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
         return ResponseEntity.ok(ApiResponse.success(
-                "Match retrieved successfully", matchService.getMatchById(id)));
+                "Match retrieved successfully", matchService.getMatchById(id, includeDemo)));
     }
 
     @GetMapping("/team/{teamId}")
     @Operation(summary = "Get all matches for a team")
     public ResponseEntity<ApiResponse<List<MatchResponse>>> getMatchesByTeamId(
-            @PathVariable Long teamId) {
+            @PathVariable Long teamId,
+            @RequestParam(defaultValue = "false") boolean includeDemo) {
         return ResponseEntity.ok(ApiResponse.success(
                 "Team matches retrieved successfully",
-                matchService.getMatchesByTeamId(teamId)));
+                matchService.getMatchesByTeamId(teamId, includeDemo)));
     }
 
     @PutMapping("/{id}")
@@ -74,4 +78,3 @@ public class MatchController {
         return ResponseEntity.ok(ApiResponse.success("Match deleted successfully"));
     }
 }
-

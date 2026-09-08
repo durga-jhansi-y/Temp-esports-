@@ -35,6 +35,11 @@ public class Team {
     @Builder.Default
     private boolean active = true;
 
+    /** True only for backend-seeded sample records. */
+    @Column(name = "demo_data", nullable = false)
+    @Builder.Default
+    private boolean demoData = false;
+
     @OneToMany(mappedBy = "team")
     @Builder.Default
     private List<Player> players = new ArrayList<>();

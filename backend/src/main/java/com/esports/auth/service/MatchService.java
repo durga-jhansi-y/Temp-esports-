@@ -49,23 +49,33 @@ public class MatchService {
     }
 
     @Transactional(readOnly = true)
-    public List<MatchResponse> getAllMatches() {
+    public List<MatchResponse> getAllMatches(boolean includeDemo) {
         return matchRepository.findAll().stream()
+                .filter(match -> includeDemo || !match.isDemoData())
                 .map(MatchResponse::from)
                 .toList();
     }
 
     @Transactional(readOnly = true)
-    public MatchResponse getMatchById(Long id) {
-        return MatchResponse.from(findMatchOrThrow(id));
+    public MatchResponse getMatchById(Long id, boolean includeDemo) {
+        Match match = findMatchOrThrow(id);
+        if (match.isDemoData() && !includeDemo) {
+            throw new ResourceNotFoundException("Match", id);
+        }
+        return MatchResponse.from(match);
     }
 
     @Transactional(readOnly = true)
-    public List<MatchResponse> getMatchesByTeamId(Long teamId) {
-        findTeamOrThrow(teamId);
+    public List<MatchResponse> getMatchesByTeamId(Long teamId, boolean includeDemo) {
+        Team team = findTeamOrThrow(teamId);
+        if (team.isDemoData() && !includeDemo) {
+            throw new ResourceNotFoundException("Team", teamId);
+        }
+
         return matchRepository
                 .findByHomeTeam_IdOrAwayTeam_IdOrderByScheduledAtAsc(teamId, teamId)
                 .stream()
+                .filter(match -> includeDemo || !match.isDemoData())
                 .map(MatchResponse::from)
                 .toList();
     }
@@ -145,4 +155,3 @@ public class MatchService {
         }
     }
 }
-

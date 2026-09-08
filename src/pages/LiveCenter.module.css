@@ -101,7 +101,8 @@
   color: #8f96a3;
 }
 
-.searchBar input {
+.searchBar input,
+.searchBar select {
   width: 100%;
   min-width: 180px;
   padding: 7px 8px;
@@ -111,6 +112,14 @@
   outline: none;
   font: inherit;
   font-size: 13px;
+}
+
+.searchBar select {
+  width: auto;
+  min-width: 105px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  background: #111115;
 }
 
 .searchBar input::placeholder {
@@ -295,6 +304,7 @@
 }
 
 .followButton {
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;

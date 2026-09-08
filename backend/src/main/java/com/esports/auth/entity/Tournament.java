@@ -51,6 +51,11 @@ public class Tournament {
     @Builder.Default
     private TournamentStatus status = TournamentStatus.UPCOMING;
 
+    /** True only for backend-seeded sample records. */
+    @Column(name = "demo_data", nullable = false)
+    @Builder.Default
+    private boolean demoData = false;
+
     /**
      * The League this tournament belongs to.
      * This side owns the foreign key column (league_id in the tournaments table).

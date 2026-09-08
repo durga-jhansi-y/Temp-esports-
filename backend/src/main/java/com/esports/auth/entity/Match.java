@@ -18,6 +18,11 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** True only for backend-seeded sample records. */
+    @Column(name = "demo_data", nullable = false)
+    @Builder.Default
+    private boolean demoData = false;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "home_team_id", nullable = false)
     private Team homeTeam;

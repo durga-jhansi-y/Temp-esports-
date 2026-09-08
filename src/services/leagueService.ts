@@ -1,4 +1,5 @@
 import { apiFetch } from './apiClient';
+import { withEsportsDataMode } from './dataMode';
 
 export type LeagueStatus = 'UPCOMING' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED';
 
@@ -34,11 +35,11 @@ export interface UpdateLeagueRequest {
 }
 
 export async function getLeagues(): Promise<League[]> {
-  return apiFetch<League[]>('/api/leagues');
+  return apiFetch<League[]>(withEsportsDataMode('/api/leagues'));
 }
 
 export async function getLeague(id: number): Promise<League> {
-  return apiFetch<League>(`/api/leagues/${id}`);
+  return apiFetch<League>(withEsportsDataMode(`/api/leagues/${id}`));
 }
 
 export async function createLeague(

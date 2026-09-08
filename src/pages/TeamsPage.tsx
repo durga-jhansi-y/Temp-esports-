@@ -1,69 +1,48 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  getEsportsDataMode,
+  setEsportsDataMode,
+  type EsportsDataMode,
+} from '../services/dataMode';
+import { getTeams, type Team } from '../services/teamService';
 import styles from './TeamsPage.module.css';
-
-type Team = {
-  name: string;
-  initials: string;
-  game: string;
-  record: string;
-  rating: string;
-  mapDiff: string;
-};
-
-const teams: Team[] = [
-  {
-    name: 'Nova',
-    initials: 'N',
-    game: 'Valorant',
-    record: '18–3',
-    rating: '1,842',
-    mapDiff: '+14',
-  },
-  {
-    name: 'Vanta GG',
-    initials: 'V',
-    game: 'Valorant',
-    record: '16–5',
-    rating: '1,760',
-    mapDiff: '+9',
-  },
-  {
-    name: 'Team Apex',
-    initials: 'T',
-    game: 'CS2',
-    record: '15–6',
-    rating: '1,692',
-    mapDiff: '+7',
-  },
-  {
-    name: 'Riptide',
-    initials: 'R',
-    game: 'Rocket League',
-    record: '14–7',
-    rating: '1,611',
-    mapDiff: '+5',
-  },
-  {
-    name: 'Eclipse',
-    initials: 'E',
-    game: 'Valorant',
-    record: '13–8',
-    rating: '1,574',
-    mapDiff: '+4',
-  },
-  {
-    name: 'Orion',
-    initials: 'O',
-    game: 'Overwatch 2',
-    record: '12–9',
-    rating: '1,510',
-    mapDiff: '+2',
-  },
-];
 
 export default function TeamsPage() {
   const [search, setSearch] = useState('');
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [dataMode, setDataModeState] = useState<EsportsDataMode>(getEsportsDataMode);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadTeams = async () => {
+      try {
+        setIsLoading(true);
+        setError('');
+        const result = await getTeams();
+        if (!cancelled) {
+          setTeams(result);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setTeams([]);
+          setError(err instanceof Error ? err.message : 'Failed to load teams.');
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void loadTeams();
+    return () => {
+      cancelled = true;
+    };
+  }, [dataMode]);
 
   const filteredTeams = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -73,9 +52,17 @@ export default function TeamsPage() {
     }
 
     return teams.filter((team) =>
-      `${team.name} ${team.game}`.toLowerCase().includes(query),
+      [team.name, team.game, team.region ?? '', team.coach ?? '']
+        .join(' ')
+        .toLowerCase()
+        .includes(query),
     );
-  }, [search]);
+  }, [search, teams]);
+
+  const changeDataMode = (mode: EsportsDataMode) => {
+    setEsportsDataMode(mode);
+    setDataModeState(mode);
+  };
 
   return (
     <div className={styles.page}>
@@ -89,8 +76,8 @@ export default function TeamsPage() {
             </h1>
 
             <p className={styles.description}>
-              Browse rosters, records, rankings, and recent form without
-              requiring a user account.
+              Browse team information from the Spring Boot API. The sample-data
+              option still uses the backend; it only includes persisted seeded records.
             </p>
           </div>
 
@@ -99,23 +86,37 @@ export default function TeamsPage() {
               type="search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search team or game"
-              aria-label="Search team or game"
+              placeholder="Search team, game, region, or coach"
+              aria-label="Search teams"
             />
+            <select
+              aria-label="Team data source"
+              value={dataMode}
+              onChange={(event) => changeDataMode(event.target.value as EsportsDataMode)}
+            >
+              <option value="backend">Backend data only</option>
+              <option value="backend-sample">Backend + sample data</option>
+            </select>
           </div>
         </header>
 
-        {filteredTeams.length > 0 ? (
+        {error && <div className={styles.emptyState}>{error}</div>}
+
+        {isLoading ? (
+          <div className={styles.emptyState}>Loading teams...</div>
+        ) : filteredTeams.length > 0 ? (
           <section className={styles.teamGrid} aria-label="Competitive teams">
             {filteredTeams.map((team) => (
               <Link
-                key={team.name}
-                to="/team-profile"
+                key={team.id}
+                to={`/teams/${team.id}`}
                 className={styles.teamCard}
-                aria-label={`View ${team.name} team profile`}
+                aria-label={`View ${team.name} team details`}
               >
                 <div className={styles.teamLine}>
-                  <div className={styles.teamLogo}>{team.initials}</div>
+                  <div className={styles.teamLogo}>
+                    {team.name.trim().charAt(0).toUpperCase() || '?'}
+                  </div>
 
                   <div className={styles.teamIdentity}>
                     <h2>{team.name}</h2>
@@ -125,32 +126,36 @@ export default function TeamsPage() {
 
                 <div className={styles.statsGrid}>
                   <div className={styles.statItem}>
-                    <span>Record</span>
-                    <strong>{team.record}</strong>
+                    <span>Region</span>
+                    <strong>{team.region || 'Not set'}</strong>
                   </div>
 
                   <div className={styles.statItem}>
-                    <span>Rating</span>
-                    <strong>{team.rating}</strong>
+                    <span>Coach</span>
+                    <strong>{team.coach || 'Not set'}</strong>
                   </div>
 
                   <div className={styles.statItem}>
-                    <span>Map diff</span>
-                    <strong className={styles.positive}>{team.mapDiff}</strong>
+                    <span>Status</span>
+                    <strong className={team.active ? styles.positive : ''}>
+                      {team.active ? 'Active' : 'Inactive'}
+                    </strong>
                   </div>
                 </div>
               </Link>
             ))}
           </section>
-        ) : (
+        ) : !error ? (
           <div className={styles.emptyState}>
-            No teams match “{search}”. Try a different team or game.
+            {teams.length === 0
+              ? `No teams are available in ${dataMode === 'backend' ? 'the backend' : 'backend sample data'}.`
+              : `No teams match “${search}”.`}
           </div>
-        )}
+        ) : null}
       </main>
 
       <footer className={styles.footer}>
-        Interactive frontend mock-up • Simulated esports and analytics data
+        {dataMode === 'backend' ? 'Backend data only • /api/teams' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );

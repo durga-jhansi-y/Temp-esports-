@@ -1,7 +1,10 @@
 import styles from './LandingPage.module.css';
-import { Button } from '../components/ui/Button'; // Adjust this path based on your folder structure
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/ui/Button';
 
 export default function LandingPage() {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       {/* 1. HERO SECTION */}
@@ -35,6 +38,7 @@ export default function LandingPage() {
               variant="primary" 
               size="medium"
               className={styles.ctaButton}
+              onClick={() => navigate('/league-manager')}
             >
               Launch your league &rarr;
             </Button>
