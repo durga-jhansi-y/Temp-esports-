@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getLeague, getLeagues, type League } from '../services/leagueService';
-import styles from './TournamentsPage.module.css';
+import styles from './TournamentPages.module.css';
 
 export default function LeagueLookupPage() {
   const [leagues, setLeagues] = useState<League[]>([]);
@@ -112,7 +112,7 @@ export default function LeagueLookupPage() {
                 <div><span className={styles.simNote}>Tournaments</span><strong>{selectedLeague.tournamentCount}</strong></div>
               </div>
               <p className={styles.muted} style={{ marginTop: 16 }}>
-                {selectedLeague.startDate} → {selectedLeague.endDate}
+                {selectedLeague.startDate} ??{selectedLeague.endDate}
               </p>
             </div>
           </section>
@@ -150,7 +150,7 @@ export default function LeagueLookupPage() {
         </section>
       </main>
 
-      <footer className={styles.footer}>Public league retrieval • /api/leagues</footer>
+      <footer className={styles.footer}>Public league retrieval ??/api/leagues</footer>
     </div>
   );
 }

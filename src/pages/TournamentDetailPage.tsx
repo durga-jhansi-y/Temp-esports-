@@ -11,7 +11,7 @@ import {
   getTournaments,
   type Tournament,
 } from '../services/tournamentService';
-import styles from './TournamentsPage.module.css';
+import styles from './TournamentPages.module.css';
 
 type TabName = 'overview' | 'matches' | 'participants' | 'analytics';
 
@@ -182,7 +182,7 @@ export default function TournamentDetailPage() {
             <div className={`${styles.gridTwo} ${styles.sectionSpacing}`}>
               <div className={`${styles.card} ${styles.accentCard}`}>
                 <h2>Event schedule</h2>
-                <p className={styles.muted}>{tournament.startDate} → {tournament.endDate}</p>
+                <p className={styles.muted}>{tournament.startDate} ??{tournament.endDate}</p>
                 <div className={styles.kpiRow}>
                   <span className={styles.simNote}>Status</span>
                   <span className={`${styles.status} ${tournament.status === 'ACTIVE' ? styles.statusLive : ''}`}>{tournament.status}</span>
@@ -193,7 +193,7 @@ export default function TournamentDetailPage() {
                 <h2>Next active match</h2>
                 {nextMatch ? (
                   <>
-                    <p className={styles.muted}>{formatDateTime(nextMatch.scheduledAt)} • {nextMatch.venue || 'Venue TBD'}</p>
+                    <p className={styles.muted}>{formatDateTime(nextMatch.scheduledAt)} ??{nextMatch.venue || 'Venue TBD'}</p>
                     <div className={styles.featuredMatch}>
                       <div className={styles.teamLine}><div className={styles.teamLogo}>{nextMatch.homeTeamName.charAt(0)}</div><b>{nextMatch.homeTeamName}</b></div>
                       <span className={styles.score}>{nextMatch.status === 'IN_PROGRESS' ? `${nextMatch.homeScore} - ${nextMatch.awayScore}` : 'VS'}</span>
@@ -273,7 +273,7 @@ export default function TournamentDetailPage() {
       </main>
 
       <footer className={styles.footer}>
-        {dataMode === 'backend' ? 'Backend data only • /api/tournaments + /api/matches' : 'Backend API + seeded sample data'}
+        {dataMode === 'backend' ? 'Backend data only ??/api/tournaments + /api/matches' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );

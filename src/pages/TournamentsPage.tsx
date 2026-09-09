@@ -10,7 +10,7 @@ import {
   type Tournament,
   type TournamentStatus,
 } from '../services/tournamentService';
-import styles from './TournamentsPage.module.css';
+import styles from './TournamentPages.module.css';
 
 function statusLabel(status: TournamentStatus) {
   return status.charAt(0) + status.slice(1).toLowerCase();
@@ -154,7 +154,7 @@ export default function TournamentsPage() {
                     </div>
                     <div>
                       <span className={styles.simNote}>Dates</span>
-                      <strong>{tournament.startDate} → {tournament.endDate}</strong>
+                      <strong>{tournament.startDate} ??{tournament.endDate}</strong>
                     </div>
                   </div>
 
@@ -177,7 +177,7 @@ export default function TournamentsPage() {
       </main>
 
       <footer className={styles.footer}>
-        {dataMode === 'backend' ? 'Backend data only • /api/tournaments' : 'Backend API + seeded sample data'}
+        {dataMode === 'backend' ? 'Backend data only ??/api/tournaments' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );

@@ -6,7 +6,7 @@ import {
   type EsportsDataMode,
 } from '../services/dataMode';
 import { getMatch, type Match } from '../services/matchService';
-import styles from './TournamentsPage.module.css';
+import styles from './TournamentPages.module.css';
 
 function formatDateTime(value: string) {
   const date = new Date(value);
@@ -148,7 +148,7 @@ export default function MatchDetailPage() {
       </main>
 
       <footer className={styles.footer}>
-        {dataMode === 'backend' ? 'Backend data only • /api/matches' : 'Backend API + seeded sample data'}
+        {dataMode === 'backend' ? 'Backend data only ??/api/matches' : 'Backend API + seeded sample data'}
       </footer>
     </div>
   );

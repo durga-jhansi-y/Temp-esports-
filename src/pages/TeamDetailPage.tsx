@@ -7,7 +7,7 @@ import {
 } from '../services/dataMode';
 import { getMatchesByTeamId, type Match } from '../services/matchService';
 import { getTeam, type Team } from '../services/teamService';
-import styles from './TournamentsPage.module.css';
+import styles from './TournamentPages.module.css';
 
 function formatDateTime(value: string) {
   const date = new Date(value);
@@ -128,8 +128,8 @@ export default function TeamDetailPage() {
 
         <div className={styles.gridFour}>
           <div className={styles.metric}><span>Game</span><strong>{team.game}</strong><small>Team title</small></div>
-          <div className={styles.metric}><span>Region</span><strong>{team.region || '—'}</strong><small>Registered region</small></div>
-          <div className={styles.metric}><span>Coach</span><strong>{team.coach || '—'}</strong><small>Team coach</small></div>
+          <div className={styles.metric}><span>Region</span><strong>{team.region || 'N/A'}</strong><small>Registered region</small></div>
+          <div className={styles.metric}><span>Coach</span><strong>{team.coach || 'N/A'}</strong><small>Team coach</small></div>
           <div className={styles.metric}><span>Completed record</span><strong>{wins}-{Math.max(0, completed - wins)}</strong><small>{completed} completed matches</small></div>
         </div>
 
@@ -183,3 +183,4 @@ export default function TeamDetailPage() {
     </div>
   );
 }
+
