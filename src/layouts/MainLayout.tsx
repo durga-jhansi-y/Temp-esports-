@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import NavBar from '../components/navBar';
+import LiveMatchTicker from '../components/live/LiveMatchTicker';
 import styles from './MainLayout.module.css';
 
 interface MainLayoutProps {
@@ -10,6 +11,7 @@ function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className={styles.appShell}>
       <NavBar />
+      <LiveMatchTicker />
 
       <main className={styles.mainContent}>
         {children}
