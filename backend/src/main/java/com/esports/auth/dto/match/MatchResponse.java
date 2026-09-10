@@ -17,6 +17,7 @@ public class MatchResponse {
     private String homeTeamName;
     private Long awayTeamId;
     private String awayTeamName;
+    private String game;
     private Long tournamentId;
     private String tournamentName;
     private LocalDateTime scheduledAt;
@@ -32,6 +33,7 @@ public class MatchResponse {
                 .homeTeamName(match.getHomeTeam().getName())
                 .awayTeamId(match.getAwayTeam().getId())
                 .awayTeamName(match.getAwayTeam().getName())
+                .game(match.getHomeTeam().getGame())
                 .tournamentId(match.getTournament() == null ? null : match.getTournament().getId())
                 .tournamentName(match.getTournament() == null ? null : match.getTournament().getName())
                 .scheduledAt(match.getScheduledAt())
