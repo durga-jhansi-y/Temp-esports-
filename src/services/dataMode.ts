@@ -20,6 +20,7 @@ export function getEsportsDataMode(): EsportsDataMode {
 export function setEsportsDataMode(mode: EsportsDataMode): void {
   if (typeof window !== 'undefined') {
     window.localStorage.setItem(STORAGE_KEY, mode);
+    window.dispatchEvent(new CustomEvent('esports-data-mode-changed', { detail: mode }));
   }
 }
 

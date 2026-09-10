@@ -1,3 +1,4 @@
+import type { Player } from './playerService';
 import { apiFetch } from './apiClient';
 import type { ApiResponse } from './apiResponse';
 import { unwrapApiResponse } from './apiResponse';
@@ -10,6 +11,7 @@ export interface Team {
   region?: string | null;
   coach?: string | null;
   active: boolean;
+  players: Player[];
 }
 
 export interface CreateTeamRequest {
