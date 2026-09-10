@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import TournamentBracket from '../components/tournament/TournamentBracket';
 import {
   getEsportsDataMode,
   setEsportsDataMode,
@@ -13,13 +14,14 @@ import {
 } from '../services/tournamentService';
 import styles from './TournamentsPage.module.css';
 
-type TabName = 'overview' | 'matches' | 'participants' | 'analytics';
+type TabName = 'overview' | 'bracket' | 'matches' | 'participants' | 'stats';
 
 const tabs: { id: TabName; label: string }[] = [
   { id: 'overview', label: 'Overview' },
+  { id: 'bracket', label: 'Bracket' },
   { id: 'matches', label: 'Matches' },
   { id: 'participants', label: 'Participants' },
-  { id: 'analytics', label: 'Public analytics' },
+  { id: 'stats', label: 'Stats' },
 ];
 
 function formatDateTime(value: string) {
@@ -209,6 +211,22 @@ export default function TournamentDetailPage() {
           </section>
         )}
 
+
+        {activeTab === 'bracket' && (
+          <section className={styles.tabPane}>
+            <div className={`${styles.card} ${styles.accentCard}`}>
+              <div className={styles.kpiRow} style={{ marginBottom: 18 }}>
+                <div>
+                  <h2>Tournament bracket</h2>
+                  <p className={styles.muted}>Single-elimination view generated from this tournament's linked matches.</p>
+                </div>
+                <span className={styles.tag}>{matches.length} matches</span>
+              </div>
+              <TournamentBracket matches={matches} />
+            </div>
+          </section>
+        )}
+
         {activeTab === 'matches' && (
           <section className={styles.tabPane}>
             <div className={`${styles.card} ${styles.accentCard}`}>
@@ -261,7 +279,7 @@ export default function TournamentDetailPage() {
           </section>
         )}
 
-        {activeTab === 'analytics' && (
+        {activeTab === 'stats' && (
           <section className={styles.tabPane}>
             <div className={styles.gridThree}>
               <div className={styles.metric}><span>Live matches</span><strong>{live}</strong><small>IN_PROGRESS</small></div>

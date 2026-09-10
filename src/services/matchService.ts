@@ -11,6 +11,7 @@ export interface Match {
   homeTeamName: string;
   awayTeamId: number;
   awayTeamName: string;
+  game: string;
   tournamentId?: number | null;
   tournamentName?: string | null;
   scheduledAt: string;
