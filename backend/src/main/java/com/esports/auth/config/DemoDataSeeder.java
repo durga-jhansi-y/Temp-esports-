@@ -4,11 +4,13 @@ import com.esports.auth.entity.League;
 import com.esports.auth.entity.LeagueStatus;
 import com.esports.auth.entity.Match;
 import com.esports.auth.entity.MatchStatus;
+import com.esports.auth.entity.Player;
 import com.esports.auth.entity.Team;
 import com.esports.auth.entity.Tournament;
 import com.esports.auth.entity.TournamentStatus;
 import com.esports.auth.repository.LeagueRepository;
 import com.esports.auth.repository.MatchRepository;
+import com.esports.auth.repository.PlayerRepository;
 import com.esports.auth.repository.TeamRepository;
 import com.esports.auth.repository.TournamentRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class DemoDataSeeder implements ApplicationRunner {
     private final TeamRepository teamRepository;
     private final TournamentRepository tournamentRepository;
     private final MatchRepository matchRepository;
+    private final PlayerRepository playerRepository;
 
     @Value("${app.esports.seed-demo-data:true}")
     private boolean seedDemoData;
@@ -73,6 +76,22 @@ public class DemoDataSeeder implements ApplicationRunner {
         Team riptide = seedTeam("Riptide", "Rocket League", "East Coast", "K. Brooks", true);
         Team eclipse = seedTeam("Eclipse", "Valorant", "East Coast", null, true);
         Team orion = seedTeam("Orion", "Overwatch 2", "North America", "S. Kim", false);
+
+        seedPlayer("Shadow", "Mason Reed", "United States", nova);
+        seedPlayer("Volt", "Jordan Lee", "Canada", nova);
+        seedPlayer("Frost", "Evan Park", "United States", nova);
+        seedPlayer("Blaze", "Noah Kim", "South Korea", nova);
+        seedPlayer("Echo", "Lucas Chen", "United States", nova);
+
+        seedPlayer("Nyx", "Avery Stone", "United States", vanta);
+        seedPlayer("Kite", "Ryan Cole", "Canada", vanta);
+        seedPlayer("Mako", "Kai Bennett", "United States", vanta);
+        seedPlayer("Flux", "Eli Brooks", "United States", vanta);
+        seedPlayer("Rune", "Theo Morgan", "United Kingdom", vanta);
+
+        seedPlayer("Wave", "Chris Hale", "United States", riptide);
+        seedPlayer("Drift", "Sam Torres", "United States", riptide);
+        seedPlayer("Jet", "Alex Grant", "Canada", riptide);
 
         Tournament capitalClash = seedTournament(
                 "Capital Clash Invitational",
@@ -119,14 +138,14 @@ public class DemoDataSeeder implements ApplicationRunner {
         );
 
         seedMatch(
-                apex,
+                vanta,
                 eclipse,
                 capitalClash,
-                LocalDateTime.of(2026, 9, 8, 21, 0),
+                LocalDateTime.of(2026, 9, 7, 20, 30),
                 "Main Stage",
+                2,
                 0,
-                0,
-                MatchStatus.SCHEDULED
+                MatchStatus.COMPLETED
         );
 
         seedMatch(
@@ -235,6 +254,22 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .status(status)
                 .league(league)
                 .demoData(true)
+                .build());
+    }
+
+    private void seedPlayer(String gamerTag, String displayName, String country, Team team) {
+        if (team == null || playerRepository.existsByGamerTag(gamerTag)) {
+            return;
+        }
+
+        playerRepository.save(Player.builder()
+                .gamerTag(gamerTag)
+                .displayName(displayName)
+                .game(team.getGame())
+                .teamName(team.getName())
+                .team(team)
+                .country(country)
+                .active(true)
                 .build());
     }
 
