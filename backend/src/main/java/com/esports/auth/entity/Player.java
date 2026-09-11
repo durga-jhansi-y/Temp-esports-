@@ -48,6 +48,14 @@ public class Player {
     private String country;
 
     @Builder.Default
+    @Column(nullable = false, length = 20)
+    private String rosterRole = "STARTER";
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean eligibilityVerified = false;
+
+    @Builder.Default
     @Column(nullable = false)
     private boolean active = true;
 }
