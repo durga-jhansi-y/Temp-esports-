@@ -1,0 +1,322 @@
+.page {
+  min-height: 100%;
+  color: #fff;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(122, 92, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 88% 55%, rgba(58, 210, 159, 0.08), transparent 32%),
+    #09090b;
+}
+
+.wrap,
+.profileWrap {
+  width: min(1220px, calc(100% - 34px));
+  margin: 0 auto;
+  padding: 54px 0 80px;
+}
+
+.profileWrap { width: min(1080px, calc(100% - 34px)); }
+
+.pageHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  color: #a890ff;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 10px 0 12px;
+  font-size: clamp(38px, 5vw, 58px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.title span {
+  color: transparent;
+  background: linear-gradient(90deg, #7a5cff, #d2c8ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.description {
+  max-width: 720px;
+  margin: 0;
+  color: #9ca3af;
+  line-height: 1.65;
+}
+
+.filters {
+  display: flex;
+  gap: 9px;
+  min-width: 360px;
+  padding: 8px;
+  background: rgba(18, 18, 22, 0.9);
+  border: 1px solid rgba(122, 92, 255, 0.24);
+  border-radius: 12px;
+}
+
+.filters input,
+.filters select {
+  min-width: 0;
+  padding: 9px 10px;
+  color: #fff;
+  background: #111115;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  outline: none;
+}
+
+.filters input { flex: 1; }
+
+.playerGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.playerCard,
+.heroCard,
+.panel,
+.profileStats > div {
+  background: linear-gradient(145deg, rgba(22, 22, 28, 0.96), rgba(13, 13, 17, 0.96));
+  border: 1px solid rgba(122, 92, 255, 0.2);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+.playerCard {
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 16px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.playerCard::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  content: '';
+  background: linear-gradient(90deg, #7a5cff, #39d3a0);
+}
+
+.playerCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(168, 144, 255, 0.48);
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.5), 0 0 30px rgba(122, 92, 255, 0.12);
+}
+
+.cardTop,
+.heroCard,
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar,
+.heroAvatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: #e5e0ff;
+  background: linear-gradient(135deg, rgba(122, 92, 255, 0.54), rgba(35, 219, 159, 0.18));
+  border: 1px solid rgba(168, 144, 255, 0.36);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.avatar { width: 56px; height: 56px; border-radius: 13px; }
+.heroAvatar { width: 118px; height: 118px; border-radius: 22px; font-size: 30px; }
+
+.identity { min-width: 0; flex: 1; }
+.identity h2 { margin: 4px 0 1px; font-size: 22px; }
+.identity p { margin: 0; color: #818896; font-size: 12px; }
+
+.rolePill,
+.rarePill {
+  display: inline-flex;
+  padding: 4px 7px;
+  color: #b9aaff;
+  background: rgba(122, 92, 255, 0.12);
+  border: 1px solid rgba(122, 92, 255, 0.2);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.liveDot,
+.inactiveDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 14px currentColor;
+}
+.liveDot { color: #39d3a0; background: #39d3a0; }
+.inactiveDot { color: #6b7280; background: #6b7280; }
+
+.metaLine {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 18px 0 16px;
+}
+
+.metaLine span,
+.profileTags span {
+  padding: 5px 8px;
+  color: #b9c0cb;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.statsGrid div {
+  padding: 10px 8px;
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: 9px;
+}
+
+.statsGrid span,
+.profileStats span,
+.ratingBlock span {
+  display: block;
+  color: #717987;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.statsGrid strong { display: block; margin-top: 4px; font-size: 16px; }
+
+.badgeRow { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 15px; }
+.badgeRow span { color: #d7dbe2; font-size: 10px; }
+
+.emptyState {
+  padding: 38px 22px;
+  color: #8b93a0;
+  text-align: center;
+  background: rgba(17, 17, 21, 0.82);
+  border: 1px solid rgba(122, 92, 255, 0.16);
+  border-radius: 14px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #a890ff;
+  text-decoration: none;
+  font-weight: 750;
+}
+
+.heroCard {
+  position: relative;
+  padding: 26px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.heroCard::after {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  right: -70px;
+  top: -120px;
+  content: '';
+  background: radial-gradient(circle, rgba(122, 92, 255, 0.28), transparent 68%);
+}
+
+.heroIdentity { flex: 1; min-width: 0; }
+.heroIdentity h1 { margin: 5px 0 2px; font-size: clamp(36px, 6vw, 64px); letter-spacing: -0.05em; }
+.heroIdentity p { margin: 0 0 12px; color: #9ba3af; }
+.profileTags { display: flex; gap: 7px; flex-wrap: wrap; }
+
+.ratingBlock {
+  position: relative;
+  z-index: 1;
+  min-width: 150px;
+  padding: 18px;
+  text-align: right;
+  background: rgba(8, 8, 11, 0.6);
+  border: 1px solid rgba(168, 144, 255, 0.18);
+  border-radius: 14px;
+}
+.ratingBlock strong { display: block; margin: 3px 0; font-size: 34px; }
+.ratingBlock small { color: #39d3a0; font-size: 9px; letter-spacing: 0.08em; }
+
+.profileStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+.profileStats > div { padding: 18px; border-radius: 13px; }
+.profileStats strong { display: block; margin: 5px 0; font-size: 23px; }
+.profileStats small { color: #737b87; }
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+.panel { padding: 22px; border-radius: 16px; }
+.panelHeader { justify-content: space-between; align-items: flex-start; }
+.panelHeader h2 { margin: 4px 0 0; font-size: 22px; }
+.xpValue { color: #d9d3ff; font-size: 12px; }
+
+.achievementGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px; }
+.achievementCard {
+  min-height: 86px;
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(122, 92, 255, 0.1), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(122, 92, 255, 0.18);
+  border-radius: 12px;
+}
+.achievementCard span { display: block; color: #8c7cff; font-size: 8px; font-weight: 900; letter-spacing: 0.12em; }
+.achievementCard strong { display: block; margin-top: 10px; font-size: 13px; }
+
+.progressTrack { height: 12px; margin-top: 22px; overflow: hidden; background: #0b0b0e; border-radius: 999px; }
+.progressTrack div { height: 100%; background: linear-gradient(90deg, #7a5cff, #39d3a0); border-radius: inherit; }
+.progressCopy { margin: 8px 0 16px; color: #7f8794; font-size: 11px; }
+.streakCard { padding: 16px; background: rgba(255, 255, 255, 0.025); border-radius: 12px; }
+.streakCard span { color: #f59e0b; font-size: 9px; font-weight: 850; }
+.streakCard strong { display: block; margin: 7px 0 4px; }
+.streakCard small { color: #7f8794; }
+.demoNote { margin: 16px 4px 0; color: #626a76; font-size: 11px; line-height: 1.55; }
+
+@media (max-width: 980px) {
+  .playerGrid { grid-template-columns: repeat(2, 1fr); }
+  .pageHead { align-items: stretch; flex-direction: column; }
+  .filters { min-width: 0; }
+  .profileGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .playerGrid,
+  .profileStats,
+  .achievementGrid { grid-template-columns: 1fr; }
+  .heroCard { align-items: flex-start; flex-direction: column; }
+  .ratingBlock { width: 100%; text-align: left; }
+  .statsGrid { grid-template-columns: repeat(2, 1fr); }
+  .filters { flex-direction: column; }
+}

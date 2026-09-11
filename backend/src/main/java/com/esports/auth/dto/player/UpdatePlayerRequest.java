@@ -1,5 +1,6 @@
 package com.esports.auth.dto.player;
 
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,9 @@ public class UpdatePlayerRequest {
     @Size(max = 60, message = "Country must not exceed 60 characters")
     private String country;
 
+    @Pattern(regexp = "CAPTAIN|STARTER|BENCH", message = "Roster role must be CAPTAIN, STARTER, or BENCH")
+    private String rosterRole;
+
+    private Boolean eligibilityVerified;
     private Boolean active;
 }
-

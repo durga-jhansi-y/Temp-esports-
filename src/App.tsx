@@ -26,6 +26,9 @@ import MatchDetailPage from './pages/MatchDetailPage';
 import TeamsPage from './pages/TeamsPage';
 import TeamDetailPage from './pages/TeamDetailPage';
 import RankingsPage from './pages/RankingsPage';
+import PlayersPage from './pages/PlayersPage';
+import PlayerPublicProfilePage from './pages/PlayerPublicProfilePage';
+import SchedulePage from './pages/SchedulePage';
 
 // Login-required workspace pages
 import LeagueRegistration from './pages/LeagueRegistration';
@@ -77,6 +80,9 @@ function App() {
             <Route path="/teams" element={<TeamsPage />} />
             <Route path="/teams/:id" element={<TeamDetailPage />} />
             <Route path="/rankings" element={<RankingsPage />} />
+            <Route path="/players" element={<PlayersPage />} />
+            <Route path="/players/:id" element={<PlayerPublicProfilePage />} />
+            <Route path="/schedule" element={<SchedulePage />} />
 
             {/* Login-required workspace */}
             <Route element={<ProtectedRoute />}>

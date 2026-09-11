@@ -159,6 +159,17 @@ public class SecurityConfig {
                                 .permitAll()
 
                                 /*
+                                 * Public player directory/profile GET routes.
+                                 * Player writes still require authentication.
+                                 */
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/players",
+                                        "/api/players/**"
+                                )
+                                .permitAll()
+
+                                /*
                                  * H2 console for development testing.
                                  *
                                  * Production configuration should

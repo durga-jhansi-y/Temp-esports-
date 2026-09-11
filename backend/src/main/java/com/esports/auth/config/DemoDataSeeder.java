@@ -269,6 +269,10 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .teamName(team.getName())
                 .team(team)
                 .country(country)
+                .rosterRole(gamerTag.equals("Shadow") || gamerTag.equals("Nyx") || gamerTag.equals("Wave")
+                        ? "CAPTAIN"
+                        : "STARTER")
+                .eligibilityVerified(true)
                 .active(true)
                 .build());
     }
