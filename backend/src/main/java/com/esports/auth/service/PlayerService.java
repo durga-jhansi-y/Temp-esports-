@@ -36,6 +36,8 @@ public class PlayerService {
                 .teamName(team == null ? null : team.getName())
                 .team(team)
                 .country(request.getCountry())
+                .rosterRole("STARTER")
+                .eligibilityVerified(false)
                 .active(request.getActive() == null || request.getActive())
                 .build();
 
@@ -77,6 +79,12 @@ public class PlayerService {
         }
         if (request.getCountry() != null) {
             player.setCountry(request.getCountry());
+        }
+        if (request.getRosterRole() != null) {
+            player.setRosterRole(request.getRosterRole());
+        }
+        if (request.getEligibilityVerified() != null) {
+            player.setEligibilityVerified(request.getEligibilityVerified());
         }
         if (request.getActive() != null) {
             player.setActive(request.getActive());
